@@ -1,0 +1,31 @@
+{
+  "name": "Maktab-E-Khaleel — Maktab Management",
+  "short_name": "Maktab-E-Khaleel",
+  "description": "Manage students, daily attendance, fees, staff and reports for your Maktab.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070a12",
+  "theme_color": "#1e3a8a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "./",
+  "id": "./",
+  "lang": "en",
+  "categories": [
+    "education",
+    "productivity"
+  ]
+}
