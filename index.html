@@ -1,0 +1,3622 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+    <link rel="icon" href="icons/icon-192.png" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e3a8a" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>Maktab-E-Khaleel — Maktab Management</title>
+  <link rel="stylesheet" href="css/tailwind.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-main: #eef2f9;
+      --bg-surface: #f5f8fc;
+      --bg-elevated: #ffffff;
+      --bg-input: #e6ecf7;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --brand-primary: #1e3a8a;
+      --brand-secondary: #1d4ed8;
+      --brand-accent: #3b82f6;
+      --border-subtle: rgba(30, 58, 138, 0.11);
+      --neu-shadow: 6px 6px 14px rgba(163, 177, 198, 0.45), -6px -6px 14px rgba(255, 255, 255, 0.92);
+      --neu-shadow-sm: 3px 3px 8px rgba(163, 177, 198, 0.4), -3px -3px 8px rgba(255, 255, 255, 0.9);
+      --neu-inset: inset 3px 3px 6px rgba(163, 177, 198, 0.45), inset -3px -3px 6px rgba(255, 255, 255, 0.88);
+    }
+
+    html[data-theme="dark"] {
+      --bg-main: #070a12;
+      --bg-surface: #0f1523;
+      --bg-elevated: #161f33;
+      --bg-input: #090d16;
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --brand-primary: #2563eb;
+      --brand-secondary: #3b82f6;
+      --brand-accent: #60a5fa;
+      --border-subtle: rgba(59, 130, 246, 0.18);
+      --neu-shadow: 6px 6px 16px rgba(0, 0, 0, 0.72), -4px -4px 12px rgba(30, 41, 59, 0.25);
+      --neu-shadow-sm: 3px 3px 8px rgba(0, 0, 0, 0.65), -2px -2px 6px rgba(30, 41, 59, 0.22);
+      --neu-inset: inset 3px 3px 7px rgba(0, 0, 0, 0.82), inset -2px -2px 5px rgba(30, 41, 59, 0.22);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      overflow-x: hidden;
+    }
+
+    .neu-card {
+      background-color: var(--bg-surface);
+      box-shadow: var(--neu-shadow);
+      border: 1px solid var(--border-subtle);
+      border-radius: 1rem;
+    }
+
+    .neu-card-sm {
+      background-color: var(--bg-surface);
+      box-shadow: var(--neu-shadow-sm);
+      border: 1px solid var(--border-subtle);
+      border-radius: 0.75rem;
+    }
+
+    .neu-input {
+      background-color: var(--bg-input);
+      box-shadow: var(--neu-inset);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      border-radius: 0.75rem;
+      padding: 0.65rem 0.9rem;
+      width: 100%;
+      font-size: 0.925rem;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .neu-input:focus {
+      outline: none;
+      border-color: var(--brand-accent);
+    }
+
+    .neu-btn-primary {
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+      color: #ffffff;
+      font-weight: 600;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.32);
+      transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+    }
+
+    .neu-btn-primary:hover {
+      opacity: 0.96;
+      box-shadow: 0 6px 16px rgba(29, 78, 216, 0.42);
+    }
+
+    .neu-btn-primary:active {
+      transform: scale(0.985);
+    }
+
+    .neu-btn-secondary {
+      background-color: var(--bg-surface);
+      color: var(--text-primary);
+      box-shadow: var(--neu-shadow-sm);
+      border: 1px solid var(--border-subtle);
+      font-weight: 600;
+      border-radius: 0.75rem;
+      transition: transform 0.12s ease, background-color 0.12s ease;
+    }
+
+    .neu-btn-secondary:hover {
+      background-color: var(--bg-elevated);
+    }
+
+    .neu-btn-secondary:active {
+      transform: scale(0.98);
+    }
+
+    .mk-logo-badge {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 60%, #0ea5e9 100%);
+      color: #ffffff;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 0.85rem;
+      box-shadow: 0 4px 14px rgba(30, 58, 138, 0.45);
+      border: 2px solid rgba(255, 255, 255, 0.25);
+    }
+
+    .text-muted-custom {
+      color: var(--text-muted);
+    }
+
+    .text-secondary-custom {
+      color: var(--text-secondary);
+    }
+
+    .border-subtle-custom {
+      border-color: var(--border-subtle);
+    }
+
+    .bg-elevated-custom {
+      background-color: var(--bg-elevated);
+    }
+
+    /* Mobile bottom nav safe clearance */
+    .app-content-area {
+      padding-bottom: 5.5rem;
+    }
+
+    @media (min-width: 1024px) {
+      .app-content-area {
+        padding-bottom: 2rem;
+      }
+    }
+
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+      body {
+        background: #fff !important;
+        color: #000 !important;
+      }
+      .neu-card, .neu-card-sm {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- GLOBAL TOAST NOTIFICATION CONTAINER -->
+  <div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-2 max-w-sm w-full pointer-events-none px-4 sm:px-0"></div>
+
+  <!-- =================================================================== -->
+  <!-- 1. AUTHENTICATION VIEW (index.html + owner-register.html + recovery) -->
+  <!-- =================================================================== -->
+  <div id="view-auth" class="min-h-screen flex flex-col justify-between py-6 px-4 sm:px-6 lg:px-8">
+    <!-- Top Bar on Login Screen -->
+    <div class="max-w-md w-full mx-auto flex items-center justify-between mb-4">
+      <div class="flex items-center gap-2.5">
+        <div class="mk-logo-badge w-10 h-10 text-base select-none" title="Maktab-E-Khaleel">MK</div>
+        <div>
+          <div class="font-bold text-sm tracking-tight leading-none" id="auth-header-title">MAKTAB-E-KHALEEL</div>
+          <div class="text-xs text-muted-custom mt-0.5">Smart Maktab Management System</div>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" onclick="toggleTheme()" class="neu-btn-secondary p-2 text-xs" title="Toggle Light / Near-Black Dark Mode" aria-label="Toggle Theme">
+          <span id="theme-icon-auth">🌙</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Auth Neumorphic Container -->
+    <div class="max-w-md w-full mx-auto my-auto">
+      <div class="neu-card p-6 sm:p-8 relative overflow-hidden">
+        <!-- Decorative Top Accent -->
+        <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-blue-900 via-blue-600 to-sky-500"></div>
+
+        <!-- Branding Banner -->
+        <div class="text-center mb-6 pt-1">
+          <div class="mk-logo-badge w-16 h-16 text-2xl mx-auto mb-3 select-none" title="Maktab-E-Khaleel">MK</div>
+          <h1 class="text-2xl font-extrabold tracking-tight" id="auth-main-heading">Maktab-E-Khaleel</h1>
+          <p class="text-xs sm:text-sm text-secondary-custom mt-1" id="auth-main-subtitle">Smart Madrasa &amp; Maktab Management System</p>
+        </div>
+
+        <!-- Public Auth Mode Switcher Tabs (Only Login & Change Login visible publicly) -->
+        <div id="auth-tabs-bar" class="grid grid-cols-3 gap-1.5 p-1.5 rounded-xl mb-6" style="background-color: var(--bg-input); box-shadow: var(--neu-inset);">
+          <button type="button" id="tab-btn-login" onclick="switchAuthTab('login')" class="py-2 px-2 rounded-lg text-xs font-semibold transition-all bg-blue-800 text-white shadow">
+            Login
+          </button>
+          <button type="button" id="tab-btn-change" onclick="switchAuthTab('change')" class="py-2 px-2 rounded-lg text-xs font-semibold transition-all text-secondary-custom">
+            Change Login
+          </button>
+          <button type="button" id="tab-btn-recovery" onclick="switchAuthTab('recovery')" class="py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition-all text-secondary-custom">
+            Recovery
+          </button>
+        </div>
+
+        <!-- TAB 1: LOGIN FORM -->
+        <div id="auth-panel-login">
+          <form id="form-login" onsubmit="handleLogin(event)" class="space-y-4">
+            <div>
+              <div class="block text-xs font-semibold uppercase tracking-wider text-secondary-custom mb-1.5">Sign in as</div>
+              <div role="group" aria-label="Sign in as" class="grid gap-1.5 p-1.5 rounded-xl" style="grid-template-columns:1fr 1fr;background-color: var(--bg-input); box-shadow: var(--neu-inset);">
+                <button type="button" id="login-role-owner" onclick="setLoginRole('owner')" aria-pressed="true" class="py-2 px-2 rounded-lg text-xs font-semibold transition-all bg-blue-800 text-white shadow">Owner</button>
+                <button type="button" id="login-role-staff" onclick="setLoginRole('staff')" aria-pressed="false" class="py-2 px-2 rounded-lg text-xs font-semibold transition-all text-secondary-custom">Staff</button>
+              </div>
+            </div>
+            <div>
+              <label for="login-username" class="block text-xs font-semibold uppercase tracking-wider text-secondary-custom mb-1.5">Username</label>
+              <input type="text" id="login-username" class="neu-input" placeholder="Username" required autocomplete="username" />
+            </div>
+
+            <div>
+              <div class="flex items-center justify-between mb-1.5">
+                <label for="login-password" class="block text-xs font-semibold uppercase tracking-wider text-secondary-custom">Password</label>
+              </div>
+              <div class="relative">
+                <input type="password" id="login-password" class="neu-input pr-16" placeholder="Password" required autocomplete="current-password" />
+                <button type="button" id="eye-login" onclick="togglePasswordVisibility('login-password', 'eye-login')" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs font-semibold px-2 py-1 rounded text-secondary-custom hover:text-blue-600">
+                  Show
+                </button>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+              <label class="inline-flex items-center gap-2 cursor-pointer text-xs text-secondary-custom select-none">
+                <input type="checkbox" id="login-remember" class="rounded border-slate-400 text-blue-700 focus:ring-blue-600 w-4 h-4" checked />
+                <span>Remember username</span>
+              </label>
+              <button type="button" onclick="switchAuthTab('recovery')" class="text-xs font-semibold text-blue-700 dark:text-blue-400 hover:underline">
+                Forgot password?
+              </button>
+            </div>
+
+            <button type="submit" class="neu-btn-primary w-full py-3 text-sm flex items-center justify-center gap-2 mt-2">
+              <span>Sign In to Dashboard</span>
+              <span>→</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- TAB 2: FIRST-RUN OWNER SETUP (only shown when no Owner exists) -->
+        <div id="auth-panel-register" class="hidden">
+          <div class="mb-4 p-3.5 rounded-xl border border-blue-500/40 bg-blue-500/10 text-xs">
+            <div class="font-bold text-blue-700 dark:text-blue-300">Welcome — let's set up your Maktab</div>
+            <p class="mt-1 text-secondary-custom leading-relaxed">Create the Owner account. Keep your recovery code safe: it is the only way to reset the Owner password if you forget it.</p>
+          </div>
+
+          <form id="form-owner-register" onsubmit="handleOwnerRegister(event)" class="space-y-3.5">
+            <div>
+              <label for="reg-fullname" class="block text-xs font-semibold text-secondary-custom mb-1">Full Name *</label>
+              <input type="text" id="reg-fullname" class="neu-input" placeholder="Full name" required />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="reg-username" class="block text-xs font-semibold text-secondary-custom mb-1">Username (3–30 chars) *</label>
+                <input type="text" id="reg-username" class="neu-input" placeholder="Choose a username" pattern="^[a-zA-Z0-9_]{3,30}$" title="3 to 30 letters, numbers, or underscores" required />
+              </div>
+              <div>
+                <label for="reg-mobile" class="block text-xs font-semibold text-secondary-custom mb-1">Mobile Number *</label>
+                <input type="tel" id="reg-mobile" class="neu-input" placeholder="Mobile number" required />
+              </div>
+            </div>
+            <div>
+              <label for="reg-email" class="block text-xs font-semibold text-secondary-custom mb-1">Account Email *</label>
+              <input type="email" id="reg-email" class="neu-input" placeholder="Email address" required />
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="reg-password" class="block text-xs font-semibold text-secondary-custom mb-1">Password *</label>
+                <input type="password" id="reg-password" class="neu-input" placeholder="At least 6 characters" minlength="6" required />
+              </div>
+              <div>
+                <label for="reg-confirm" class="block text-xs font-semibold text-secondary-custom mb-1">Confirm Password *</label>
+                <input type="password" id="reg-confirm" class="neu-input" placeholder="Re-enter password" minlength="6" required />
+              </div>
+            </div>
+            <div>
+              <label for="reg-recovery" class="block text-xs font-semibold text-secondary-custom mb-1">Secret Recovery Code (Hashed via pgcrypto) *</label>
+              <input type="text" id="reg-recovery" class="neu-input" placeholder="Secret code, min 6 characters (keep it safe)" minlength="6" required />
+              <p class="text-[11px] text-muted-custom mt-1">Hashed before storage. Used to recover your account without paid SMS/WhatsApp OTP APIs.</p>
+            </div>
+            <button type="submit" class="neu-btn-primary w-full py-2.5 text-sm">
+              Register First Owner Account
+            </button>
+          </form>
+        </div>
+
+        <!-- TAB 3: FORGOT PASSWORD / ACCOUNT RECOVERY (Change Username & Change Password) -->
+        <div id="auth-panel-recovery" class="hidden">
+          <div class="mb-3.5 p-3 rounded-xl border border-blue-500/30 bg-blue-500/10 text-xs text-secondary-custom leading-relaxed">
+            <strong class="text-blue-700 dark:text-blue-300 block mb-0.5">🛡️ Forgot Password &amp; Username Recovery</strong>
+            Verify your account with your <strong>Email + Recovery Code</strong> to change your <strong>Username</strong>, change your <strong>Password</strong>, or update both without losing any Maktab data.
+
+          </div>
+
+          <!-- What to Change Mode Selector inside Forgot Password Page -->
+          <div class="mb-3.5">
+            <span class="block text-[11px] font-bold uppercase tracking-wider text-secondary-custom mb-1.5">Select What to Change</span>
+            <div class="grid grid-cols-3 gap-1.5 p-1 rounded-xl" style="background-color: var(--bg-input); box-shadow: var(--neu-inset);">
+              <button type="button" id="rec-opt-both" onclick="setRecoveryActionMode('both')" class="py-1.5 px-2 rounded-lg text-[11px] font-bold bg-blue-800 text-white shadow">
+                Both User &amp; Pass
+              </button>
+              <button type="button" id="rec-opt-pass" onclick="setRecoveryActionMode('password')" class="py-1.5 px-2 rounded-lg text-[11px] font-semibold text-secondary-custom">
+                Change Password
+              </button>
+              <button type="button" id="rec-opt-user" onclick="setRecoveryActionMode('username')" class="py-1.5 px-2 rounded-lg text-[11px] font-semibold text-secondary-custom">
+                Change Username
+              </button>
+            </div>
+          </div>
+
+          <form id="form-recovery" onsubmit="handleAccountRecovery(event)" class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="rec-username" class="block text-xs font-semibold text-secondary-custom mb-1">Current Username <span class="text-muted-custom font-normal">(Optional if email entered)</span></label>
+                <input type="text" id="rec-username" class="neu-input text-xs sm:text-sm" placeholder="Username (optional)" />
+              </div>
+              <div>
+                <label for="rec-email" class="block text-xs font-semibold text-secondary-custom mb-1">Registered Email *</label>
+                <input type="email" id="rec-email" class="neu-input text-xs sm:text-sm" placeholder="Owner email address" required />
+              </div>
+            </div>
+
+            <div>
+              <label for="rec-code" class="block text-xs font-semibold text-secondary-custom mb-1">Secret Recovery Code *</label>
+              <input type="text" id="rec-code" class="neu-input text-xs sm:text-sm" placeholder="Your secret recovery code" required />
+            </div>
+
+            <!-- Change Username Box inside Forgot Password Page -->
+            <div id="rec-new-username-box" class="pt-2 border-t border-subtle-custom">
+              <label for="rec-new-username" class="block text-xs font-semibold text-secondary-custom mb-1">New Username <span class="text-muted-custom font-normal" id="rec-user-opt-hint">(3–30 letters/numbers/_)</span></label>
+              <input type="text" id="rec-new-username" class="neu-input text-xs sm:text-sm" placeholder="New username" pattern="^[a-zA-Z0-9_]{3,30}$" title="3 to 30 letters, numbers, or underscores" />
+            </div>
+
+            <!-- Change Password Box inside Forgot Password Page -->
+            <div id="rec-new-password-box" class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
+              <div>
+                <label for="rec-newpass" class="block text-xs font-semibold text-secondary-custom mb-1">New Password</label>
+                <div class="relative">
+                  <input type="password" id="rec-newpass" class="neu-input pr-14 text-xs sm:text-sm" placeholder="Min 6 characters" minlength="6" />
+                  <button type="button" id="eye-rec-pass" onclick="togglePasswordVisibility('rec-newpass', 'eye-rec-pass')" class="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-semibold px-1.5 py-0.5 rounded text-secondary-custom hover:text-blue-600">
+                    Show
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label for="rec-confirmpass" class="block text-xs font-semibold text-secondary-custom mb-1">Confirm New Password</label>
+                <input type="password" id="rec-confirmpass" class="neu-input text-xs sm:text-sm" placeholder="Re-enter password" minlength="6" />
+              </div>
+            </div>
+
+            <button type="submit" class="neu-btn-primary w-full py-2.5 text-sm">
+              Verify &amp; Restore Account Access
+            </button>
+          </form>
+        </div>
+
+        <!-- TAB 4: CHANGE LOGIN (Change Username & Password using Current Password) -->
+        <div id="auth-panel-change" class="hidden">
+          <div class="mb-3.5 p-3 rounded-xl border border-blue-500/30 bg-blue-500/10 text-xs text-secondary-custom leading-relaxed">
+            <strong class="text-blue-700 dark:text-blue-300 block mb-0.5">🔑 Change Username &amp; Password</strong>
+            Enter your current username and password below to update your login <strong>Username</strong>, <strong>Password</strong>, or both.
+          </div>
+
+          <form id="form-change-credentials" onsubmit="handleChangeCredentials(event)" class="space-y-3">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="chg-current-username" class="block text-xs font-semibold text-secondary-custom mb-1">Current Username *</label>
+                <input type="text" id="chg-current-username" class="neu-input text-xs sm:text-sm" placeholder="Current username" required />
+              </div>
+              <div>
+                <label for="chg-current-password" class="block text-xs font-semibold text-secondary-custom mb-1">Current Password *</label>
+                <div class="relative">
+                  <input type="password" id="chg-current-password" class="neu-input pr-14 text-xs sm:text-sm" placeholder="Current password" required />
+                  <button type="button" id="eye-chg-cur" onclick="togglePasswordVisibility('chg-current-password', 'eye-chg-cur')" class="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-semibold px-1.5 py-0.5 rounded text-secondary-custom hover:text-blue-600">
+                    Show
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="pt-2 border-t border-subtle-custom">
+              <label for="chg-new-username" class="block text-xs font-semibold text-secondary-custom mb-1">New Username <span class="text-muted-custom font-normal">(Leave blank to keep current)</span></label>
+              <input type="text" id="chg-new-username" class="neu-input text-xs sm:text-sm" placeholder="New username (optional)" pattern="^[a-zA-Z0-9_]{3,30}$" title="3 to 30 letters, numbers, or underscores" />
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label for="chg-new-password" class="block text-xs font-semibold text-secondary-custom mb-1">New Password <span class="text-muted-custom font-normal">(Leave blank to keep current)</span></label>
+                <div class="relative">
+                  <input type="password" id="chg-new-password" class="neu-input pr-14 text-xs sm:text-sm" placeholder="Min 6 chars" minlength="6" />
+                  <button type="button" id="eye-chg-new" onclick="togglePasswordVisibility('chg-new-password', 'eye-chg-new')" class="absolute right-2 top-1/2 -translate-y-1/2 text-[11px] font-semibold px-1.5 py-0.5 rounded text-secondary-custom hover:text-blue-600">
+                    Show
+                  </button>
+                </div>
+              </div>
+              <div>
+                <label for="chg-confirm-password" class="block text-xs font-semibold text-secondary-custom mb-1">Confirm New Password</label>
+                <input type="password" id="chg-confirm-password" class="neu-input text-xs sm:text-sm" placeholder="Re-enter new password" minlength="6" />
+              </div>
+            </div>
+
+            <button type="submit" class="neu-btn-primary w-full py-2.5 text-sm">
+              Update Username &amp; Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer on Auth Screen -->
+    <div class="max-w-md w-full mx-auto text-center mt-6 text-xs text-muted-custom">
+      Maktab-E-Khaleel • Records are stored securely on this device
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- 2. MAIN APPLICATION SHELL (dashboard.html & all operational modules) -->
+  <!-- =================================================================== -->
+  <div id="view-app" class="hidden min-h-screen flex flex-col">
+
+    <!-- TOP NAVIGATION HEADER -->
+    <header class="sticky top-0 z-30 backdrop-blur-md border-b border-subtle-custom no-print" style="background-color: var(--bg-surface);">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 h-16 flex items-center justify-between gap-2">
+        <!-- Brand & Logged-in User Info -->
+        <div class="flex items-center gap-3 min-w-0">
+          <div class="mk-logo-badge w-10 h-10 text-base shrink-0 select-none" title="Maktab-E-Khaleel">MK</div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold text-sm sm:text-base tracking-tight truncate" id="app-brand-name">Maktab-E-Khaleel</span>
+              <span id="header-role-badge" class="text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-700 text-white shrink-0">OWNER</span>
+            </div>
+            <div class="text-xs text-muted-custom truncate" id="header-user-display"></div>
+          </div>
+        </div>
+
+        <!-- Right Controls: Theme & Logout -->
+        <div class="flex items-center gap-2 shrink-0">
+          <button type="button" onclick="toggleTheme()" class="neu-btn-secondary p-2 text-xs" title="Switch Light / Near-Black Dark Mode" aria-label="Toggle Theme">
+            <span id="theme-icon-app">🌙</span>
+          </button>
+
+          <button type="button" onclick="handleLogout()" class="neu-btn-secondary px-3.5 py-1.5 text-xs font-bold text-rose-600 dark:text-rose-400">
+            Logout
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- BODY LAYOUT: SIDEBAR (Desktop) + MAIN MODULE VIEW -->
+    <div class="max-w-7xl w-full mx-auto flex-1 flex gap-6 px-3 sm:px-6 pt-5 app-content-area">
+
+      <!-- DESKTOP LEFT NAVIGATION SIDEBAR -->
+      <aside class="hidden lg:flex flex-col w-60 shrink-0 no-print">
+        <div class="neu-card p-3 space-y-1 sticky top-24">
+          <button type="button" onclick="navigateModule('dashboard')" id="side-nav-dashboard" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-blue-800 text-white">
+            <span class="flex items-center gap-2.5"><span>📊</span><span>Dashboard</span></span>
+          </button>
+          <button type="button" onclick="navigateModule('attendance')" id="side-nav-attendance" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10">
+            <span class="flex items-center gap-2.5"><span>⚡</span><span>Fast Attendance</span></span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 font-bold">Priority</span>
+          </button>
+          <button type="button" onclick="navigateModule('students')" id="side-nav-students" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10">
+            <span class="flex items-center gap-2.5"><span>🎓</span><span>Students</span></span>
+            <span id="side-badge-students" class="text-xs font-bold px-2 py-0.5 rounded-full bg-slate-500/15">0</span>
+          </button>
+          <button type="button" onclick="navigateModule('fees')" id="side-nav-fees" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10">
+            <span class="flex items-center gap-2.5"><span>₹</span><span>Fee Management</span></span>
+            <span id="side-lock-fees" class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-600 font-bold">Owner</span>
+          </button>
+          <button type="button" onclick="navigateModule('staff')" id="side-nav-staff" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10">
+            <span class="flex items-center gap-2.5"><span>👥</span><span>Staff &amp; Salary</span></span>
+            <span id="side-lock-staff" class="text-[10px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-600 font-bold">Owner</span>
+          </button>
+          <button type="button" onclick="navigateModule('reports')" id="side-nav-reports" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10">
+            <span class="flex items-center gap-2.5"><span>📑</span><span>Reports &amp; AI</span></span>
+          </button>
+          <button type="button" onclick="navigateModule('settings')" id="side-nav-settings" class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10">
+            <span class="flex items-center gap-2.5"><span>⚙️</span><span>Settings &amp; SQL</span></span>
+          </button>
+
+          <div class="pt-3 mt-3 border-t border-subtle-custom px-2">
+            <div class="text-[11px] font-bold uppercase tracking-wider text-muted-custom mb-1">Security Enforcement</div>
+            <p class="text-[11px] text-secondary-custom leading-snug" id="sidebar-security-note">
+              Role check active. Owner financial data is isolated.
+            </p>
+          </div>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT COLUMN -->
+      <main class="flex-1 min-w-0 space-y-6">
+
+        <!-- =============================================================== -->
+        <!-- MODULE 1: DASHBOARD                                -->
+        <!-- =============================================================== -->
+        <section id="module-dashboard" class="space-y-6">
+          <!-- Welcome Banner -->
+          <div class="neu-card p-5 sm:p-6 relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <div class="inline-flex items-center gap-2 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-600/10 text-blue-700 dark:text-blue-300 mb-2">
+                  <span id="dash-date-badge"></span>
+                  <span>•</span>
+                  <span id="dash-day-status">Normal Working Day (Mon–Sat)</span>
+                </div>
+                <h2 class="text-xl sm:text-2xl font-extrabold tracking-tight" id="dash-welcome-title">Assalamu Alaikum</h2>
+                <p class="text-xs sm:text-sm text-secondary-custom mt-1" id="dash-welcome-subtitle">
+                  Quick overview of student attendance, active classes, and maktab operations.
+                </p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="navigateModule('attendance')" class="neu-btn-primary px-4 py-2.5 text-xs sm:text-sm flex items-center gap-2">
+                  <span>⚡ Mark Today's Attendance</span>
+                </button>
+                <button type="button" onclick="openStudentModal()" class="neu-btn-secondary px-3.5 py-2.5 text-xs sm:text-sm">
+                  + Add Student
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Student & Operational Statistics Grid -->
+          <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 sm:gap-4">
+            <div class="neu-card p-4">
+              <div class="text-xs font-semibold text-muted-custom uppercase tracking-wider">Active Students</div>
+              <div class="text-2xl sm:text-3xl font-extrabold mt-1 text-blue-700 dark:text-blue-400" id="stat-active-students">0</div>
+              <div class="text-[11px] text-secondary-custom mt-1" id="stat-inactive-students">0 non-active excluded</div>
+            </div>
+
+            <div class="neu-card p-4">
+              <div class="text-xs font-semibold text-muted-custom uppercase tracking-wider">Today Present</div>
+              <div class="text-2xl sm:text-3xl font-extrabold mt-1 text-emerald-600 dark:text-emerald-400" id="stat-today-present">0</div>
+              <div class="text-[11px] text-secondary-custom mt-1" id="stat-today-absent">0 Absent • 0 Unmarked</div>
+            </div>
+
+            <div class="neu-card p-4">
+              <div class="text-xs font-semibold text-muted-custom uppercase tracking-wider">Attendance Rate</div>
+              <div class="text-2xl sm:text-3xl font-extrabold mt-1 text-indigo-600 dark:text-indigo-400" id="stat-attendance-pct">—</div>
+              <div class="text-[11px] text-secondary-custom mt-1">Excludes Sundays &amp; inactive</div>
+            </div>
+
+            <div class="neu-card p-4">
+              <div class="text-xs font-semibold text-muted-custom uppercase tracking-wider">Absent Alerts</div>
+              <div class="text-2xl sm:text-3xl font-extrabold mt-1 text-amber-600 dark:text-amber-400" id="stat-pending-alerts">0</div>
+              <div class="text-[11px] text-secondary-custom mt-1">Parent WhatsApp click-to-chat</div>
+            </div>
+          </div>
+
+          <!--Quick Action Buttons -->
+          <div class="neu-card p-5">
+            <h3 class="text-sm font-bold uppercase tracking-wider text-secondary-custom mb-3.5">Quick Management Actions</h3>
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5">
+              <button type="button" onclick="navigateModule('attendance')" class="neu-btn-secondary p-3 text-left flex flex-col justify-between">
+                <span class="text-lg">⚡</span>
+                <span class="text-xs font-bold mt-2">Mark Attendance</span>
+                <span class="text-[10px] text-muted-custom">40–50 students &lt;2m</span>
+              </button>
+              <button type="button" onclick="openStudentModal()" class="neu-btn-secondary p-3 text-left flex flex-col justify-between">
+                <span class="text-lg">🎓</span>
+                <span class="text-xs font-bold mt-2">New Student</span>
+                <span class="text-[10px] text-muted-custom">Add to Maktab</span>
+              </button>
+              <button type="button" onclick="navigateModule('attendance'); scrollToAbsentPanel();" class="neu-btn-secondary p-3 text-left flex flex-col justify-between">
+                <span class="text-lg">💬</span>
+                <span class="text-xs font-bold mt-2">WhatsApp Parents</span>
+                <span class="text-[10px] text-muted-custom">Absent click-to-chat</span>
+              </button>
+              <button type="button" onclick="handleQuickFeeAction()" class="neu-btn-secondary p-3 text-left flex flex-col justify-between">
+                <span class="text-lg">₹</span>
+                <span class="text-xs font-bold mt-2">Collect Fee</span>
+                <span class="text-[10px] text-muted-custom">Cash / UPI / Bank</span>
+              </button>
+              <button type="button" onclick="navigateModule('reports')" class="neu-btn-secondary p-3 text-left flex flex-col justify-between">
+                <span class="text-lg">🤖</span>
+                <span class="text-xs font-bold mt-2">Khaleel AI</span>
+                <span class="text-[10px] text-muted-custom">Ask DB records</span>
+              </button>
+              <button type="button" onclick="navigateModule('reports'); triggerSafeBackupJSON();" class="neu-btn-secondary p-3 text-left flex flex-col justify-between">
+                <span class="text-lg">💾</span>
+                <span class="text-xs font-bold mt-2">Safe Backup</span>
+                <span class="text-[10px] text-muted-custom">JSON / CSV Export</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- OWNER-ONLY FINANCIAL SUMMARY -->
+          <!-- Dynamically cleared/hidden when role === 'staff' -->
+          <div id="dash-owner-finance-container"></div>
+
+          <!-- TODAY'S ATTENDANCE SUMMARY & CLASS BREAKDOWN -->
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+            <div class="neu-card p-5">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-base font-bold">Today's Attendance Summary</h3>
+                  <p class="text-xs text-muted-custom" id="dash-att-date-label">Date: —</p>
+                </div>
+                <button type="button" onclick="navigateModule('attendance')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold text-blue-700 dark:text-blue-400">
+                  Open Sheet →
+                </button>
+              </div>
+              <div id="dash-attendance-bars" class="space-y-3"></div>
+            </div>
+
+            <div class="neu-card p-5">
+              <div class="flex items-center justify-between mb-4">
+                <div>
+                  <h3 class="text-base font-bold">Class-wise Active Enrolment</h3>
+                  <p class="text-xs text-muted-custom">Active students across Maktab sections</p>
+                </div>
+                <button type="button" onclick="navigateModule('students')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold text-blue-700 dark:text-blue-400">
+                  Manage Roster →
+                </button>
+              </div>
+              <div id="dash-class-distribution" class="space-y-2.5"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- MODULE 2: FAST ATTENDANCE       -->
+        <!-- =============================================================== -->
+        <section id="module-attendance" class="hidden space-y-5">
+          <div class="neu-card p-5">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div>
+                <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 mb-1">
+                  ⚡ Speed Target: 40–50 Students in &lt; 2 Minutes
+                </div>
+                <h2 class="text-xl font-extrabold">Daily Attendance &amp; Parent Alert</h2>
+                <p class="text-xs text-secondary-custom mt-0.5">
+                  Tap <strong>Mark All Present</strong>, then tap only the absent students and press <strong>Save Attendance</strong>.
+                </p>
+              </div>
+
+              <!-- Date Selector -->
+              <div class="flex flex-wrap items-center gap-2">
+                <input type="date" id="att-date-input" onchange="handleAttendanceDateChange(this.value)" class="neu-input !w-auto text-xs font-bold" />
+                <button type="button" onclick="setAttendanceDateOffset(0)" class="neu-btn-secondary px-3 py-2 text-xs font-bold">Today</button>
+              </div>
+            </div>
+
+            <!-- SUNDAY AUTOMATIC HOLIDAY BANNER -->
+            <div id="att-sunday-banner" class="hidden mt-4 p-4 rounded-xl border border-amber-500/40 bg-amber-500/10">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div>
+                  <div class="font-extrabold text-sm text-amber-800 dark:text-amber-300 flex items-center gap-2">
+                    <span>🏖️ Sunday Automatic Weekly Holiday</span>
+                  </div>
+                  <p class="text-xs text-secondary-custom mt-1">
+                    Sunday is automatically treated as a holiday and excluded from attendance percentage calculations. Monday–Saturday are normal working days.
+                  </p>
+                </div>
+                <button type="button" onclick="switchToWorkingDay()" class="neu-btn-secondary px-3 py-2 text-xs font-bold shrink-0">
+                  Switch to Working Day
+                </button>
+              </div>
+            </div>
+
+            <!-- Fast Batch Controls Bar -->
+            <div id="att-controls-bar" class="mt-5 pt-4 border-t border-subtle-custom flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div class="flex flex-wrap items-center gap-2">
+                <button type="button" onclick="markAllAttendance('Present')" class="neu-btn-primary px-4 py-2.5 text-xs sm:text-sm flex items-center gap-1.5">
+                  <span>✓ Mark All Present</span>
+                </button>
+                <button type="button" onclick="markAllAttendance('Not Marked')" class="neu-btn-secondary px-3 py-2.5 text-xs">
+                  Reset All to Not Marked
+                </button>
+                <button type="button" onclick="saveDailyAttendance()" class="px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow-md transition-all">
+                  💾 Save Attendance (<span id="att-unsaved-indicator">Saved</span>)
+                </button>
+              </div>
+
+              <!-- Live Counter Pill -->
+              <div class="flex items-center gap-2 text-xs font-bold">
+                <span class="px-2.5 py-1 rounded-lg bg-emerald-500/15 text-emerald-700 dark:text-emerald-300">P: <span id="att-count-present">0</span></span>
+                <span class="px-2.5 py-1 rounded-lg bg-rose-500/15 text-rose-700 dark:text-rose-300">A: <span id="att-count-absent">0</span></span>
+                <span class="px-2.5 py-1 rounded-lg bg-slate-500/15 text-secondary-custom">NM: <span id="att-count-unmarked">0</span></span>
+              </div>
+            </div>
+
+            <!-- Filter by Class or Search Student inside Attendance -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+              <input type="text" id="att-search-input" oninput="renderAttendanceModule()" class="neu-input text-xs" placeholder="Quick search student or roll no..." />
+              <select id="att-class-filter" onchange="renderAttendanceModule()" class="neu-input text-xs font-semibold">
+                <option value="ALL">All Classes (Active Students Only)</option>
+                <option value="Noorani Qaida">Noorani Qaida</option>
+                <option value="Nazra Quran">Nazra Quran</option>
+                <option value="Hifz-ul-Quran">Hifz-ul-Quran</option>
+                <option value="Tajweed & Fiqh">Tajweed &amp; Fiqh</option>
+                <option value="Deeniyat Level 1">Deeniyat Level 1</option>
+              </select>
+              <select id="att-status-filter" onchange="renderAttendanceModule()" class="neu-input text-xs font-semibold">
+                <option value="ALL">Show All Statuses</option>
+                <option value="Absent">Show Only Absent</option>
+                <option value="Present">Show Only Present</option>
+                <option value="Not Marked">Show Only Not Marked</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Fast Tap Student Attendance Grid -->
+          <div id="att-student-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+
+          <!-- ABSENT PARENT WHATSAPP COMMUNICATION PANEL -->
+          <div id="att-absent-whatsapp-panel" class="neu-card p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div>
+                <h3 class="text-base font-extrabold flex items-center gap-2">
+                  <span>💬 Absent Parent WhatsApp Communication</span>
+                  <span id="absent-panel-count" class="text-xs px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-600 dark:text-rose-400 font-bold">0 Absent</span>
+                </h3>
+                <p class="text-xs text-secondary-custom mt-0.5">
+                  Opens normal WhatsApp click-to-chat with a respectful prefilled absence notice. Track status accurately (<code class="font-mono">Not Sent</code> / <code class="font-mono">Send Later</code> / <code class="font-mono">Sent</code>).
+                </p>
+              </div>
+            </div>
+            <div id="att-absent-list" class="space-y-2.5"></div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- MODULE 3: STUDENT MANAGEMENT                       -->
+        <!-- =============================================================== -->
+        <section id="module-students" class="hidden space-y-5">
+          <div class="neu-card p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div>
+                <h2 class="text-xl font-extrabold">Student Directory &amp; Lifecycle</h2>
+                <p class="text-xs text-secondary-custom mt-0.5">
+                  Manage student profiles, guardian WhatsApp numbers, monthly fees, and lifecycle status (<code class="font-mono">Active</code>, <code class="font-mono">Paused</code>, <code class="font-mono">Inactive</code>, <code class="font-mono">Archived</code>).
+                </p>
+              </div>
+              <button type="button" onclick="openStudentModal()" class="neu-btn-primary px-4 py-2.5 text-xs sm:text-sm shrink-0">
+                + Add New Student
+              </button>
+            </div>
+
+            <!-- Search & Filters -->
+            <div class="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <input type="text" id="stu-search-input" oninput="renderStudentsModule()" class="neu-input text-xs" placeholder="Search by student, guardian, or mobile..." />
+              <select id="stu-class-filter" onchange="renderStudentsModule()" class="neu-input text-xs font-semibold">
+                <option value="ALL">All Classes / Levels</option>
+                <option value="Noorani Qaida">Noorani Qaida</option>
+                <option value="Nazra Quran">Nazra Quran</option>
+                <option value="Hifz-ul-Quran">Hifz-ul-Quran</option>
+                <option value="Tajweed & Fiqh">Tajweed &amp; Fiqh</option>
+                <option value="Deeniyat Level 1">Deeniyat Level 1</option>
+              </select>
+              <select id="stu-status-filter" onchange="renderStudentsModule()" class="neu-input text-xs font-semibold">
+                <option value="ALL">All Statuses (Active + Non-Active)</option>
+                <option value="active">Active Only</option>
+                <option value="paused">Paused</option>
+                <option value="inactive">Inactive</option>
+                <option value="archived">Archived</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Student Cards / Responsive Table -->
+          <div id="students-list-container" class="grid grid-cols-1 md:grid-cols-2 gap-3.5"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- MODULE 4: FEE MANAGEMENT        -->
+        <!-- =============================================================== -->
+        <section id="module-fees" class="hidden space-y-5">
+          <!-- Rendered dynamically via renderFeesModule() to strictly enforce Owner-Only access -->
+          <div id="fees-module-content"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- MODULE 5: STAFF MANAGEMENT      -->
+        <!-- =============================================================== -->
+        <section id="module-staff" class="hidden space-y-5">
+          <!-- Rendered dynamically via renderStaffModule() to strictly enforce Owner-Only access -->
+          <div id="staff-module-content"></div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- MODULE 6: REPORTS, BACKUP, LOGS & KHALEEL AI   -->
+        <!-- =============================================================== -->
+        <section id="module-reports" class="hidden space-y-6">
+          <!-- KHALEEL AI ASSISTANT -->
+          <div class="neu-card p-5 border-l-4 border-l-blue-600">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-3">
+              <div>
+                <h2 class="text-lg font-extrabold flex items-center gap-2">
+                  <span>🤖 Khaleel AI — Grounded Database Assistant</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-blue-600/15 text-blue-700 dark:text-blue-300 font-bold">Zero Hallucination Mode</span>
+                </h2>
+                <p class="text-xs text-secondary-custom mt-0.5">
+                  Answers strictly from live Maktab database records and enforces Owner/Staff role restrictions.
+                </p>
+              </div>
+            </div>
+
+            <!-- Preset Question Chips -->
+            <div class="flex flex-wrap gap-1.5 mb-3">
+              <button type="button" onclick="askKhaleelAI('How many active and inactive students are enrolled?')" class="neu-btn-secondary px-2.5 py-1 text-xs">Active student count</button>
+              <button type="button" onclick="askKhaleelAI('Who is absent today and what is the attendance percentage?')" class="neu-btn-secondary px-2.5 py-1 text-xs">Today's absent students</button>
+              <button type="button" onclick="askKhaleelAI('What is the total fee collected, staff salary, and net balance?')" class="neu-btn-secondary px-2.5 py-1 text-xs">Financial summary</button>
+              <button type="button" onclick="askKhaleelAI('Which students have pending fees?')" class="neu-btn-secondary px-2.5 py-1 text-xs">Pending fee list</button>
+            </div>
+
+            <form onsubmit="handleKhaleelAISubmit(event)" class="flex gap-2">
+              <input type="text" id="khaleel-ai-input" class="neu-input text-xs sm:text-sm" placeholder="Ask Khaleel AI about students, attendance, or fees..." required />
+              <button type="submit" class="neu-btn-primary px-4 py-2 text-xs sm:text-sm shrink-0">Ask AI</button>
+            </form>
+
+            <div id="khaleel-ai-response" class="mt-3 p-3.5 rounded-xl text-xs sm:text-sm leading-relaxed border border-subtle-custom" style="background-color: var(--bg-input);">
+              Select a prompt above or type a question to query the live database records.
+            </div>
+          </div>
+
+          <!-- REPORTS & EXPORTS -->
+          <div class="neu-card p-5">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+              <div>
+                <h3 class="text-base font-extrabold">Reports, Exports &amp; Safe Backups</h3>
+                <p class="text-xs text-secondary-custom">Generate CSV, Excel-compatible CSV, Printable PDF reports, or sanitized JSON backups.</p>
+              </div>
+              <div class="flex flex-wrap gap-2">
+                <button type="button" onclick="window.print()" class="neu-btn-secondary px-3 py-2 text-xs font-bold">🖨️ Print / Save PDF</button>
+                <button type="button" onclick="triggerSafeBackupJSON()" class="neu-btn-primary px-3.5 py-2 text-xs font-bold">💾 Safe JSON Backup</button>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3" id="reports-export-cards"></div>
+          </div>
+
+          <!-- ACTIVITY LOGS -->
+          <div class="neu-card p-5">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <h3 class="text-base font-extrabold">Security &amp; Activity Audit Logs (`activity_logs`)</h3>
+                <p class="text-xs text-secondary-custom">Records administrative, student, attendance, and fee actions without exposing passwords or recovery hashes.</p>
+              </div>
+              <span class="text-xs font-mono text-muted-custom" id="activity-log-count">0 events</span>
+            </div>
+            <div id="activity-logs-list" class="space-y-2 max-h-80 overflow-y-auto pr-1"></div>
+          </div>
+        </section>
+
+        <!-- =============================================================== -->
+        <!-- MODULE 7: SETTINGS                                               -->
+        <!-- =============================================================== -->
+        <section id="module-settings" class="hidden space-y-6">
+          <div class="neu-card p-5">
+            <h2 class="text-xl font-extrabold mb-1">Maktab Settings &amp; Configuration</h2>
+            <p class="text-xs text-secondary-custom mb-5">Configure your Maktab name, the Sunday holiday rule, and the WhatsApp message template.</p>
+
+            <form id="form-settings" onsubmit="handleSaveSettings(event)" class="space-y-4">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="set-maktab-name" class="block text-xs font-semibold text-secondary-custom mb-1">Maktab Name</label>
+                  <input type="text" id="set-maktab-name" class="neu-input text-sm" required />
+                </div>
+                <div>
+                  <label for="set-maktab-phone" class="block text-xs font-semibold text-secondary-custom mb-1">Official Contact Number</label>
+                  <input type="text" id="set-maktab-phone" class="neu-input text-sm" />
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label for="set-maktab-address" class="block text-xs font-semibold text-secondary-custom mb-1">Address / Location</label>
+                  <input type="text" id="set-maktab-address" class="neu-input text-sm" />
+                </div>
+                <div>
+                  <label for="set-default-fee" class="block text-xs font-semibold text-secondary-custom mb-1">Default Monthly Fee (₹)</label>
+                  <input type="number" id="set-default-fee" class="neu-input text-sm" min="0" required />
+                </div>
+              </div>
+
+              <div>
+                <label for="set-wa-template" class="block text-xs font-semibold text-secondary-custom mb-1">
+                  Absent Parent WhatsApp Message Template (Variables: <code class="font-mono">{guardian}</code>, <code class="font-mono">{student}</code>, <code class="font-mono">{class}</code>, <code class="font-mono">{date}</code>, <code class="font-mono">{maktab}</code>)
+                </label>
+                <textarea id="set-wa-template" rows="3" class="neu-input text-xs"></textarea>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between gap-4 pt-2">
+                <label class="inline-flex items-center gap-2.5 text-xs font-semibold cursor-pointer">
+                  <input type="checkbox" id="set-sunday-holiday" class="w-4 h-4 rounded text-blue-700" checked />
+                  <span>Treat Sunday automatically as a Weekly Holiday (Exclude from Attendance %)</span>
+                </label>
+
+                <button type="submit" class="neu-btn-primary px-5 py-2.5 text-xs sm:text-sm">
+                  Save Maktab Configuration
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- DATA & BACKUP -->
+          <div class="neu-card p-5">
+            <h3 class="text-base font-extrabold">Data &amp; Backup</h3>
+            <p class="text-xs text-secondary-custom mt-1">
+              All records are stored privately on this device. If the phone is lost, or the browser/app data is cleared, the records are lost too — so download a backup regularly and keep the file somewhere safe (Google Drive, email, another phone).
+            </p>
+            <div class="flex flex-wrap gap-2 mt-4">
+              <button type="button" onclick="triggerSafeBackupJSON()" class="neu-btn-primary px-4 py-2 text-xs font-bold">💾 Download Backup</button>
+              <button type="button" onclick="requestRestore()" class="neu-btn-secondary px-4 py-2 text-xs font-bold">♻️ Restore from Backup</button>
+              <input type="file" id="restore-file" accept=".json,application/json" class="hidden" onchange="handleRestoreFile(this)" />
+            </div>
+            <p id="last-backup-label" class="text-[11px] text-muted-custom mt-3"></p>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- MOBILE BOTTOM NAVIGATION BAR -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 z-30 border-t border-subtle-custom no-print" style="background-color: var(--bg-surface);">
+      <div class="grid grid-cols-6 gap-0.5 px-1 py-1.5">
+        <button type="button" onclick="navigateModule('dashboard')" id="mob-nav-dashboard" class="flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-bold text-blue-700 dark:text-blue-400">
+          <span class="text-base">📊</span>
+          <span>Home</span>
+        </button>
+        <button type="button" onclick="navigateModule('attendance')" id="mob-nav-attendance" class="flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-medium text-secondary-custom">
+          <span class="text-base">⚡</span>
+          <span>Attend</span>
+        </button>
+        <button type="button" onclick="navigateModule('students')" id="mob-nav-students" class="flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-medium text-secondary-custom">
+          <span class="text-base">🎓</span>
+          <span>Students</span>
+        </button>
+        <button type="button" onclick="navigateModule('fees')" id="mob-nav-fees" class="flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-medium text-secondary-custom">
+          <span class="text-base">₹</span>
+          <span>Fees</span>
+        </button>
+        <button type="button" onclick="navigateModule('staff')" id="mob-nav-staff" class="flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-medium text-secondary-custom">
+          <span class="text-base">👥</span>
+          <span>Staff</span>
+        </button>
+        <button type="button" onclick="navigateModule('reports')" id="mob-nav-reports" class="flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-medium text-secondary-custom">
+          <span class="text-base">📑</span>
+          <span>Reports</span>
+        </button>
+      </div>
+    </nav>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- MODALS (Add/Edit Student, Record Fee, Add Staff, Missing Phone, DB) -->
+  <!-- =================================================================== -->
+
+  <!-- MODAL 1: ADD / EDIT STUDENT -->
+  <div id="modal-student" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 overflow-y-auto">
+    <div class="neu-card max-w-lg w-full p-6 my-8">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold" id="modal-student-title">Add New Student</h3>
+        <button type="button" onclick="closeModal('modal-student')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+      <form id="form-student" onsubmit="handleSaveStudent(event)" class="space-y-3.5">
+        <input type="hidden" id="stu-edit-id" />
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="stu-name" class="block text-xs font-semibold text-secondary-custom mb-1">Student Name *</label>
+            <input type="text" id="stu-name" class="neu-input text-sm" placeholder="Student full name" required />
+          </div>
+          <div>
+            <label for="stu-guardian" class="block text-xs font-semibold text-secondary-custom mb-1">Guardian / Parent Name *</label>
+            <input type="text" id="stu-guardian" class="neu-input text-sm" placeholder="Guardian full name" required />
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="stu-mobile" class="block text-xs font-semibold text-secondary-custom mb-1">Parent WhatsApp / Mobile</label>
+            <input type="tel" id="stu-mobile" class="neu-input text-sm" placeholder="WhatsApp number" />
+          </div>
+          <div>
+            <label for="stu-class" class="block text-xs font-semibold text-secondary-custom mb-1">Class / Level *</label>
+            <select id="stu-class" class="neu-input text-sm" required>
+              <option value="Noorani Qaida">Noorani Qaida</option>
+              <option value="Nazra Quran">Nazra Quran</option>
+              <option value="Hifz-ul-Quran">Hifz-ul-Quran</option>
+              <option value="Tajweed & Fiqh">Tajweed &amp; Fiqh</option>
+              <option value="Deeniyat Level 1">Deeniyat Level 1</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label for="stu-fee" class="block text-xs font-semibold text-secondary-custom mb-1">Monthly Fee (₹) *</label>
+            <input type="number" id="stu-fee" class="neu-input text-sm" value="500" min="0" required />
+          </div>
+          <div>
+            <label for="stu-joining" class="block text-xs font-semibold text-secondary-custom mb-1">Joining Date *</label>
+            <input type="date" id="stu-joining" class="neu-input text-sm" required />
+          </div>
+          <div>
+            <label for="stu-status" class="block text-xs font-semibold text-secondary-custom mb-1">Lifecycle Status *</label>
+            <select id="stu-status" class="neu-input text-sm" required>
+              <option value="active">Active</option>
+              <option value="paused">Paused</option>
+              <option value="inactive">Inactive</option>
+              <option value="archived">Archived</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label for="stu-notes" class="block text-xs font-semibold text-secondary-custom mb-1">Notes / Remarks</label>
+          <input type="text" id="stu-notes" class="neu-input text-sm" placeholder="Optional progress or medical/guardian notes" />
+        </div>
+
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modal-student')" class="neu-btn-secondary px-4 py-2 text-xs">Cancel</button>
+          <button type="submit" class="neu-btn-primary px-5 py-2 text-xs">Save Student Record</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: RECORD FEE PAYMENT (Owner Only) -->
+  <div id="modal-fee" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="neu-card max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold">Record Student Fee Payment</h3>
+        <button type="button" onclick="closeModal('modal-fee')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+      <form id="form-fee" onsubmit="handleSaveFee(event)" class="space-y-3.5">
+        <div>
+          <label for="fee-student-id" class="block text-xs font-semibold text-secondary-custom mb-1">Select Student *</label>
+          <select id="fee-student-id" onchange="syncFeeStudentDefault()" class="neu-input text-sm" required></select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="fee-month" class="block text-xs font-semibold text-secondary-custom mb-1">Fee Month *</label>
+            <input type="month" id="fee-month" class="neu-input text-sm" onchange="syncFeeStudentDefault()" required />
+          </div>
+          <div>
+            <label for="fee-method" class="block text-xs font-semibold text-secondary-custom mb-1">Payment Method *</label>
+            <select id="fee-method" class="neu-input text-sm" required>
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI (GPay / PhonePe)</option>
+              <option value="Bank">Bank Transfer</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="fee-due" class="block text-xs font-semibold text-secondary-custom mb-1">Monthly Fee Due (₹)</label>
+            <input type="number" id="fee-due" class="neu-input text-sm" min="0" required />
+          </div>
+          <div>
+            <label for="fee-paid" class="block text-xs font-semibold text-secondary-custom mb-1">Amount Received (₹) *</label>
+            <input type="number" id="fee-paid" class="neu-input text-sm" min="0" required />
+          </div>
+        </div>
+        <p id="fee-existing-hint" class="hidden text-[11px] font-semibold text-amber-600 dark:text-amber-400"></p>
+        <div>
+          <label for="fee-notes" class="block text-xs font-semibold text-secondary-custom mb-1">Receipt / Transaction Note</label>
+          <input type="text" id="fee-notes" class="neu-input text-sm" placeholder="Optional note" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modal-fee')" class="neu-btn-secondary px-4 py-2 text-xs">Cancel</button>
+          <button type="submit" class="neu-btn-primary px-5 py-2 text-xs">Save Fee Transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 3: CREATE / INVITE STAFF (Owner Only) -->
+  <div id="modal-staff" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="neu-card max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold">Create Authorized Staff Account</h3>
+        <button type="button" onclick="closeModal('modal-staff')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+      <form id="form-staff" onsubmit="handleSaveStaff(event)" class="space-y-3.5">
+        <div>
+          <label for="staff-fullname" class="block text-xs font-semibold text-secondary-custom mb-1">Staff Full Name *</label>
+          <input type="text" id="staff-fullname" class="neu-input text-sm" placeholder="Full name" required />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="staff-username" class="block text-xs font-semibold text-secondary-custom mb-1">Login Username *</label>
+            <input type="text" id="staff-username" class="neu-input text-sm" placeholder="Login username" pattern="^[a-zA-Z0-9_]{3,30}$" required />
+          </div>
+          <div>
+            <label for="staff-mobile" class="block text-xs font-semibold text-secondary-custom mb-1">Mobile Number *</label>
+            <input type="tel" id="staff-mobile" class="neu-input text-sm" placeholder="Mobile number" required />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="staff-email" class="block text-xs font-semibold text-secondary-custom mb-1">Email *</label>
+            <input type="email" id="staff-email" class="neu-input text-sm" placeholder="Email address" required />
+          </div>
+          <div>
+            <label for="staff-salary" class="block text-xs font-semibold text-secondary-custom mb-1">Monthly Salary (₹) *</label>
+            <input type="number" id="staff-salary" class="neu-input text-sm" placeholder="Monthly salary" min="0" required />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="staff-designation" class="block text-xs font-semibold text-secondary-custom mb-1">Assigned Class / Role</label>
+            <input type="text" id="staff-designation" class="neu-input text-sm" placeholder="Class or role" required />
+          </div>
+          <div>
+            <label for="staff-pass" class="block text-xs font-semibold text-secondary-custom mb-1">Initial Password *</label>
+            <input type="text" id="staff-pass" class="neu-input text-sm" placeholder="At least 6 characters" autocomplete="new-password" required />
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modal-staff')" class="neu-btn-secondary px-4 py-2 text-xs">Cancel</button>
+          <button type="submit" class="neu-btn-primary px-5 py-2 text-xs">Create Staff Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 4: RECORD STAFF SALARY PAYMENT (Owner Only) -->
+  <div id="modal-salary" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="neu-card max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold">Record Staff Salary Payment</h3>
+        <button type="button" onclick="closeModal('modal-salary')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+      <form id="form-salary" onsubmit="handleSaveSalary(event)" class="space-y-3.5">
+        <div>
+          <label for="sal-staff-id" class="block text-xs font-semibold text-secondary-custom mb-1">Select Staff Member *</label>
+          <select id="sal-staff-id" onchange="syncSalaryStaffDefault()" class="neu-input text-sm" required></select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="sal-month" class="block text-xs font-semibold text-secondary-custom mb-1">Salary Month *</label>
+            <input type="month" id="sal-month" class="neu-input text-sm" required />
+          </div>
+          <div>
+            <label for="sal-amount" class="block text-xs font-semibold text-secondary-custom mb-1">Amount Paid (₹) *</label>
+            <input type="number" id="sal-amount" class="neu-input text-sm" min="0" required />
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="sal-method" class="block text-xs font-semibold text-secondary-custom mb-1">Payment Method *</label>
+            <select id="sal-method" class="neu-input text-sm" required>
+              <option value="Cash">Cash</option>
+              <option value="UPI">UPI</option>
+              <option value="Bank">Bank Transfer</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label for="sal-notes" class="block text-xs font-semibold text-secondary-custom mb-1">Remarks</label>
+            <input type="text" id="sal-notes" class="neu-input text-sm" placeholder="Optional remarks" />
+          </div>
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modal-salary')" class="neu-btn-secondary px-4 py-2 text-xs">Cancel</button>
+          <button type="submit" class="neu-btn-primary px-5 py-2 text-xs">Record Salary Payment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5: MISSING WHATSAPP NUMBER PROMPT -->
+  <div id="modal-missing-phone" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="neu-card max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="text-base font-extrabold text-amber-600 dark:text-amber-400">⚠️ Parent WhatsApp Number Missing</h3>
+        <button type="button" onclick="closeModal('modal-missing-phone')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+      <p class="text-xs text-secondary-custom leading-relaxed mb-4" id="missing-phone-desc">
+        the application never pretends a message was sent when a parent's mobile number is missing. Add the parent's 10-digit WhatsApp number below to save and open WhatsApp chat immediately:
+      </p>
+      <form onsubmit="handleSaveMissingPhone(event)" class="space-y-3">
+        <input type="hidden" id="missing-phone-student-id" />
+        <div>
+          <label for="missing-phone-input" class="block text-xs font-semibold text-secondary-custom mb-1">Guardian WhatsApp Mobile Number *</label>
+          <input type="tel" id="missing-phone-input" class="neu-input text-sm" placeholder="WhatsApp number" pattern="^[0-9+\s\-]{10,15}$" required />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modal-missing-phone')" class="neu-btn-secondary px-4 py-2 text-xs">Cancel</button>
+          <button type="submit" class="neu-btn-primary px-4 py-2 text-xs">Save Number &amp; Open WhatsApp</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 5B: WHATSAPP CLICK-TO-CHAT PREVIEW & DIRECT LAUNCHER -->
+  <div id="modal-whatsapp-preview" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="neu-card max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-3">
+        <div class="flex items-center gap-2">
+          <span class="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center font-bold text-sm">💬</span>
+          <div>
+            <h3 class="text-base font-extrabold" id="wa-modal-title">WhatsApp Absence Notice</h3>
+            <p class="text-[11px] text-muted-custom font-mono" id="wa-modal-phone"></p>
+          </div>
+        </div>
+        <button type="button" onclick="closeModal('modal-whatsapp-preview')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+
+      <div class="p-3.5 rounded-xl border border-emerald-500/30 bg-emerald-500/10 mb-4">
+        <div class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300 mb-1">Prefilled WhatsApp Message</div>
+        <p class="text-xs leading-relaxed whitespace-pre-wrap" id="wa-modal-message"></p>
+      </div>
+
+      <p class="text-[11px] text-secondary-custom mb-3 leading-relaxed">
+        Choose how to open WhatsApp (if you are testing inside the sandboxed preview, popup windows may be restricted by the browser frame—use the direct links below or copy the message):
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mb-3">
+        <a id="wa-modal-link-web" href="https://wa.me/" target="_blank" rel="noopener noreferrer" onclick="markCurrentWaModalSent()" class="px-3.5 py-2.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white text-center shadow flex items-center justify-center gap-1.5">
+          <span>🌐 Open wa.me / Web</span>
+        </a>
+        <a id="wa-modal-link-app" href="whatsapp://send" target="_top" rel="noopener noreferrer" onclick="markCurrentWaModalSent()" class="neu-btn-primary px-3.5 py-2.5 text-xs text-center flex items-center justify-center gap-1.5">
+          <span>📱 Open WhatsApp App</span>
+        </a>
+      </div>
+
+      <div class="flex items-center justify-between gap-2 pt-2 border-t border-subtle-custom">
+        <button type="button" onclick="copyWaModalMessage()" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold">
+          📋 Copy Message Text
+        </button>
+        <button type="button" onclick="closeModal('modal-whatsapp-preview')" class="neu-btn-secondary px-4 py-1.5 text-xs">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL 6: RESET STAFF PASSWORD (Owner only) -->
+  <div id="modal-staff-reset" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="neu-card max-w-md w-full p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-extrabold">Reset Staff Password</h3>
+        <button type="button" onclick="closeModal('modal-staff-reset')" class="neu-btn-secondary px-2.5 py-1 text-xs">✕</button>
+      </div>
+      <form id="form-staff-reset" onsubmit="handleStaffReset(event)" class="space-y-3.5">
+        <input type="hidden" id="reset-staff-id" />
+        <p id="reset-staff-desc" class="text-xs text-secondary-custom"></p>
+        <div>
+          <label for="reset-staff-pass" class="block text-xs font-semibold text-secondary-custom mb-1">New Password *</label>
+          <input type="text" id="reset-staff-pass" class="neu-input text-sm" minlength="6" required autocomplete="off" placeholder="At least 6 characters" />
+        </div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button type="button" onclick="closeModal('modal-staff-reset')" class="neu-btn-secondary px-4 py-2 text-xs">Cancel</button>
+          <button type="submit" class="neu-btn-primary px-5 py-2 text-xs">Save New Password</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- =================================================================== -->
+  <!-- APPLICATION LOGIC -->
+  <!-- =================================================================== -->
+  <script>
+    // =====================================================================
+    // CORE UTILITIES
+    // =====================================================================
+    const DB_KEY = "mk_db_v2";
+    const SESSION_KEY = "mk_session_v2";
+    const LOCK_KEY = "mk_login_lock_v2";
+
+    const SafeStorage = {
+      get(key, fallback = null) {
+        try {
+          const raw = window.localStorage.getItem(key);
+          return raw ? JSON.parse(raw) : fallback;
+        } catch (e) {
+          return fallback;
+        }
+      },
+      set(key, value) {
+        try {
+          window.localStorage.setItem(key, JSON.stringify(value));
+          return true;
+        } catch (e) {
+          return false;
+        }
+      },
+      remove(key) {
+        try { window.localStorage.removeItem(key); } catch (e) {}
+      }
+    };
+
+    // Escape any user-entered text before placing it inside HTML
+    function esc(v) {
+      return String(v == null ? "" : v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    }
+
+    function formatINR(amount) {
+      const num = Number(amount) || 0;
+      return "₹" + num.toLocaleString("en-IN");
+    }
+
+    // ---- Dates (always the device's real local date) ----
+    function pad2(n) { return String(n).padStart(2, "0"); }
+    function toDateStr(d) { return d.getFullYear() + "-" + pad2(d.getMonth() + 1) + "-" + pad2(d.getDate()); }
+    function todayStr() { return toDateStr(new Date()); }
+    function currentMonthStr() { const d = new Date(); return d.getFullYear() + "-" + pad2(d.getMonth() + 1); }
+    function addDaysToDateStr(dateStr, n) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      return toDateStr(new Date(y, m - 1, d + n));
+    }
+    function nowStamp() {
+      const d = new Date();
+      return toDateStr(d) + " " + pad2(d.getHours()) + ":" + pad2(d.getMinutes()) + ":" + pad2(d.getSeconds());
+    }
+    function formatLongDate(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString("en-IN", { weekday: "long", day: "numeric", month: "short", year: "numeric" });
+    }
+    function isDateSunday(dateStr) {
+      if (!dateStr) return false;
+      const parts = dateStr.split("-").map(Number);
+      return new Date(parts[0], parts[1] - 1, parts[2]).getDay() === 0;
+    }
+
+    // ---- Phone helpers ----
+    function phoneDigits(p) { return String(p || "").replace(/\D/g, ""); }
+    function waPhone(p) {
+      let d = phoneDigits(p);
+      if (d.length === 11 && d.startsWith("0")) d = d.slice(1);
+      return d.length === 10 ? "91" + d : d;
+    }
+    function fmtPhone(p) {
+      const d = phoneDigits(p);
+      if (!d) return "";
+      return d.length === 10 ? "+91 " + d : "+" + d;
+    }
+    function validPhone(p) { const d = phoneDigits(p); return d.length >= 10 && d.length <= 15; }
+
+    // ---- Toasts ----
+    function showToast(message, type = "info") {
+      const container = document.getElementById("toast-container");
+      if (!container) return;
+      const colors = {
+        success: "border-emerald-500 bg-emerald-950/90 text-emerald-100",
+        error: "border-rose-500 bg-rose-950/90 text-rose-100",
+        warning: "border-amber-500 bg-amber-950/90 text-amber-100",
+        info: "border-blue-500 bg-slate-900/95 text-slate-100"
+      };
+      const el = document.createElement("div");
+      el.className = "pointer-events-auto px-4 py-3 rounded-xl border-l-4 shadow-xl text-xs font-semibold transition-all duration-200 " + (colors[type] || colors.info);
+      el.setAttribute("role", "status");
+      el.textContent = message;
+      container.appendChild(el);
+      setTimeout(() => {
+        el.style.opacity = "0";
+        setTimeout(() => el.remove(), 220);
+      }, type === "error" ? 5500 : 3600);
+    }
+
+    // =====================================================================
+    // PASSWORD HASHING (PBKDF2-SHA256 via Web Crypto, per-secret random salt)
+    // =====================================================================
+    const PBKDF2_ITERATIONS = 150000;
+    function bytesToB64(buf) {
+      let s = "";
+      new Uint8Array(buf).forEach(b => { s += String.fromCharCode(b); });
+      return btoa(s);
+    }
+    function b64ToBytes(b64) {
+      const s = atob(b64);
+      const out = new Uint8Array(s.length);
+      for (let i = 0; i < s.length; i++) out[i] = s.charCodeAt(i);
+      return out;
+    }
+    async function hashSecret(secret, saltB64, iterations) {
+      if (!(window.crypto && window.crypto.subtle)) {
+        throw new Error("Secure password storage is unavailable. Please open the app using its https:// link.");
+      }
+      const iter = iterations || PBKDF2_ITERATIONS;
+      const salt = saltB64 ? b64ToBytes(saltB64) : window.crypto.getRandomValues(new Uint8Array(16));
+      const key = await window.crypto.subtle.importKey("raw", new TextEncoder().encode(String(secret)), "PBKDF2", false, ["deriveBits"]);
+      const bits = await window.crypto.subtle.deriveBits({ name: "PBKDF2", salt, iterations: iter, hash: "SHA-256" }, key, 256);
+      return "pbkdf2$" + iter + "$" + bytesToB64(salt) + "$" + bytesToB64(bits);
+    }
+    async function verifySecret(secret, stored) {
+      if (!stored || typeof stored !== "string") return false;
+      const p = stored.split("$");
+      if (p.length !== 4 || p[0] !== "pbkdf2") return false;
+      const calc = await hashSecret(secret, p[2], Number(p[1]));
+      if (calc.length !== stored.length) return false;
+      let diff = 0;
+      for (let i = 0; i < calc.length; i++) diff |= calc.charCodeAt(i) ^ stored.charCodeAt(i);
+      return diff === 0;
+    }
+    function normalizeRecoveryCode(code) { return String(code || "").trim().toUpperCase(); }
+
+    // ---- Brute-force protection ----
+    function checkLoginLock() {
+      const l = SafeStorage.get(LOCK_KEY, { count: 0, until: 0 });
+      if (l.until && l.until > Date.now()) {
+        showToast("Too many failed attempts. Try again in " + Math.ceil((l.until - Date.now()) / 1000) + " seconds.", "error");
+        return false;
+      }
+      return true;
+    }
+    function recordLoginFailure() {
+      const l = SafeStorage.get(LOCK_KEY, { count: 0, until: 0 });
+      l.count = (l.count || 0) + 1;
+      if (l.count % 5 === 0) {
+        const secs = Math.min(300, 30 * Math.pow(2, Math.floor(l.count / 5) - 1));
+        l.until = Date.now() + secs * 1000;
+      }
+      SafeStorage.set(LOCK_KEY, l);
+    }
+    function clearLoginFailures() { SafeStorage.remove(LOCK_KEY); }
+
+    // =====================================================================
+    // DATABASE (starts empty — no sample data)
+    // =====================================================================
+    const DEFAULT_WA_TEMPLATE = "Assalamu Alaikum {guardian}, this is a respectful notification from {maktab}. Your ward {student} ({class}) was marked Absent on {date}. Kindly inform the Maktab regarding the absence. JazakAllahu Khairan.";
+
+    function buildEmptyDB() {
+      return {
+        version: 2,
+        profiles: [],
+        students: [],
+        attendance: {},
+        fees: [],
+        salary_payments: [],
+        settings: {
+          maktab_name: "Maktab-E-Khaleel",
+          tagline: "Smart Maktab Management System",
+          address: "",
+          contact_mobile: "",
+          sunday_holiday: true,
+          default_monthly_fee: 0,
+          whatsapp_template: DEFAULT_WA_TEMPLATE,
+          last_backup_at: ""
+        },
+        activity_logs: []
+      };
+    }
+
+    function normalizeDB(d) {
+      const base = buildEmptyDB();
+      const out = Object.assign({}, base, d || {});
+      out.settings = Object.assign({}, base.settings, (d && d.settings) || {});
+      ["profiles", "students", "fees", "salary_payments", "activity_logs"].forEach(k => {
+        if (!Array.isArray(out[k])) out[k] = [];
+      });
+      if (!out.attendance || typeof out.attendance !== "object" || Array.isArray(out.attendance)) out.attendance = {};
+      return out;
+    }
+
+    let dbLoadWarning = "";
+    function loadDB() {
+      let raw = null;
+      try { raw = window.localStorage.getItem(DB_KEY); } catch (e) { raw = null; }
+      if (!raw) return buildEmptyDB();
+      try {
+        const parsed = JSON.parse(raw);
+        if (parsed && typeof parsed === "object") return normalizeDB(parsed);
+        throw new Error("bad shape");
+      } catch (e) {
+        // Never overwrite unreadable data: keep a copy aside before starting fresh
+        try { window.localStorage.setItem(DB_KEY + "_corrupt_" + Date.now(), raw); } catch (e2) {}
+        dbLoadWarning = "Saved data could not be read. A copy was kept aside and the app started empty.";
+        return buildEmptyDB();
+      }
+    }
+
+    // Data from the earlier sample-data build is not carried over (it held sample records and plain-text passwords)
+    ["mk_complete_db_v1", "mk_current_session_v1", "mk_supabase_cfg"].forEach(k => SafeStorage.remove(k));
+
+    let DB = loadDB();
+    let currentSession = null;
+    let currentModule = "dashboard";
+    let selectedAttendanceDate = todayStr();
+    let dateFollowsToday = true;
+    let attendanceDirty = false;
+    let storageWarned = false;
+
+    function persistDB() {
+      const ok = SafeStorage.set(DB_KEY, DB);
+      if (!ok && !storageWarned) {
+        storageWarned = true;
+        showToast("Could not save data on this device (storage full or blocked). Download a backup now.", "error");
+      }
+      return ok;
+    }
+
+    function logActivity(actionType, details) {
+      DB.activity_logs.unshift({
+        id: "log_" + Date.now() + "_" + Math.floor(Math.random() * 1000),
+        actor_name: currentSession ? currentSession.full_name : "System",
+        actor_role: currentSession ? currentSession.role : "system",
+        action_type: actionType,
+        details: details,
+        created_at: nowStamp()
+      });
+      if (DB.activity_logs.length > 500) DB.activity_logs.length = 500;
+      persistDB();
+    }
+
+    function newId(prefix) {
+      return prefix + "_" + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36);
+    }
+
+    function hasOwner() { return DB.profiles.some(p => p.role === "owner"); }
+
+    // =====================================================================
+    // THEME
+    // =====================================================================
+    function initTheme() {
+      const savedTheme = SafeStorage.get("mk_theme", "light");
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      updateThemeIcons(savedTheme);
+    }
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute("data-theme") || "light";
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      SafeStorage.set("mk_theme", next);
+      updateThemeIcons(next);
+    }
+    function updateThemeIcons(theme) {
+      const icon = theme === "dark" ? "☀️" : "🌙";
+      const authIcon = document.getElementById("theme-icon-auth");
+      const appIcon = document.getElementById("theme-icon-app");
+      if (authIcon) authIcon.textContent = icon;
+      if (appIcon) appIcon.textContent = icon;
+    }
+    function togglePasswordVisibility(inputId, btnId) {
+      const input = document.getElementById(inputId);
+      const btn = document.getElementById(btnId);
+      if (!input || !btn) return;
+      if (input.type === "password") { input.type = "text"; btn.textContent = "Hide"; }
+      else { input.type = "password"; btn.textContent = "Show"; }
+    }
+
+    // =====================================================================
+    // SESSIONS (role is always read from the stored profile, never trusted from the session)
+    // =====================================================================
+    function buildSession(p) {
+      return { id: p.id, full_name: p.full_name, username: p.username, email: p.email, role: p.role, designation: p.designation };
+    }
+    function restoreSession() {
+      const s = SafeStorage.get(SESSION_KEY, null);
+      if (!s || !s.id) return null;
+      const p = DB.profiles.find(x => x.id === s.id);
+      if (!p || p.status !== "active") { SafeStorage.remove(SESSION_KEY); return null; }
+      return buildSession(p);
+    }
+    function startSession(p) {
+      currentSession = buildSession(p);
+      SafeStorage.set(SESSION_KEY, { id: p.id });
+    }
+    function revalidateSession() {
+      if (!currentSession) return false;
+      const p = DB.profiles.find(x => x.id === currentSession.id);
+      if (!p || p.status !== "active") {
+        showAuthScreen();
+        showToast("Your account is no longer active. Please sign in again.", "error");
+        currentSession = null;
+        SafeStorage.remove(SESSION_KEY);
+        return false;
+      }
+      currentSession = buildSession(p);
+      return true;
+    }
+
+    // =====================================================================
+    // AUTH SCREEN
+    // =====================================================================
+    let recoveryActionMode = "both"; // 'both' | 'password' | 'username'
+
+    function showAuthScreen() {
+      document.getElementById("view-app").classList.add("hidden");
+      document.getElementById("view-auth").classList.remove("hidden");
+      applyAuthMode();
+    }
+
+    // First launch (no owner yet) shows only Owner Setup. Afterwards Owner Setup can never be reopened.
+    function applyAuthMode() {
+      const bar = document.getElementById("auth-tabs-bar");
+      if (!hasOwner()) {
+        if (bar) bar.classList.add("hidden");
+        switchAuthTab("register");
+      } else {
+        if (bar) bar.classList.remove("hidden");
+        const regPanel = document.getElementById("auth-panel-register");
+        if (regPanel && !regPanel.classList.contains("hidden")) switchAuthTab("login");
+      }
+    }
+
+    function switchAuthTab(tab) {
+      if (tab === "register" && hasOwner()) tab = "login";
+      if (tab !== "register" && !hasOwner()) tab = "register";
+      ["login", "change", "register", "recovery"].forEach(t => {
+        const panel = document.getElementById("auth-panel-" + t);
+        const btn = document.getElementById("tab-btn-" + t);
+        if (panel) panel.classList.toggle("hidden", t !== tab);
+        if (btn) {
+          btn.className = t === tab
+            ? "py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition-all bg-blue-800 text-white shadow"
+            : "py-2 px-1.5 rounded-lg text-[11px] sm:text-xs font-semibold transition-all text-secondary-custom";
+        }
+      });
+      const loginUser = (document.getElementById("login-username").value || "").trim();
+      if (tab === "change") {
+        const el = document.getElementById("chg-current-username");
+        if (el && !el.value && loginUser) el.value = loginUser;
+      }
+      if (tab === "recovery") {
+        const el = document.getElementById("rec-username");
+        if (el && !el.value && loginUser) el.value = loginUser;
+      }
+    }
+
+    function setRecoveryActionMode(mode) {
+      recoveryActionMode = mode;
+      const userBox = document.getElementById("rec-new-username-box");
+      const passBox = document.getElementById("rec-new-password-box");
+      [["rec-opt-both", mode === "both"], ["rec-opt-pass", mode === "password"], ["rec-opt-user", mode === "username"]].forEach(([id, active]) => {
+        const btn = document.getElementById(id);
+        if (btn) {
+          btn.className = active
+            ? "py-1.5 px-2 rounded-lg text-[11px] font-bold bg-blue-800 text-white shadow"
+            : "py-1.5 px-2 rounded-lg text-[11px] font-semibold text-secondary-custom";
+        }
+      });
+      if (userBox) userBox.classList.toggle("hidden", mode === "password");
+      if (passBox) passBox.classList.toggle("hidden", mode === "username");
+    }
+
+    function findProfileByUsername(username) {
+      const clean = String(username || "").trim().toLowerCase();
+      return DB.profiles.find(p => p.username.toLowerCase() === clean) || null;
+    }
+
+    let authBusy = false;
+    function setBusy(formId, busy) {
+      authBusy = busy;
+      const form = document.getElementById(formId);
+      if (!form) return;
+      form.querySelectorAll("button[type=submit]").forEach(b => { b.disabled = busy; b.style.opacity = busy ? "0.6" : ""; });
+    }
+
+    let loginRole = "owner";
+    function setLoginRole(role) {
+      loginRole = role === "staff" ? "staff" : "owner";
+      SafeStorage.set("mk_login_role", loginRole);
+      ["owner", "staff"].forEach(function (r) {
+        const b = document.getElementById("login-role-" + r);
+        if (!b) return;
+        const on = r === loginRole;
+        b.setAttribute("aria-pressed", on ? "true" : "false");
+        b.classList.toggle("bg-blue-800", on);
+        b.classList.toggle("text-white", on);
+        b.classList.toggle("shadow", on);
+        b.classList.toggle("text-secondary-custom", !on);
+      });
+    }
+
+    async function handleLogin(e) {
+      if (e) e.preventDefault();
+      if (authBusy) return;
+      if (!checkLoginLock()) return;
+      const username = String(document.getElementById("login-username").value || "").trim();
+      const passwordInput = document.getElementById("login-password");
+      const password = String(passwordInput.value || "");
+      if (!username || !password) { showToast("Enter your username and password.", "warning"); return; }
+
+      setBusy("form-login", true);
+      try {
+        const profile = findProfileByUsername(username);
+        let ok = false;
+        if (profile && profile.password_hash) ok = await verifySecret(password, profile.password_hash);
+        else await hashSecret(password); // keep timing similar for unknown users
+
+        if (profile && !profile.password_hash) {
+          showToast("This account needs a new password. Ask the Owner to reset it.", "error");
+          return;
+        }
+        if (!ok) {
+          recordLoginFailure();
+          showToast("Incorrect username or password.", "error");
+          return;
+        }
+        if (profile.status !== "active") {
+          showToast("This account has been deactivated by the Owner.", "error");
+          return;
+        }
+
+        if (profile.role !== loginRole) {
+          showToast("This is " + (profile.role === "owner" ? "an Owner" : "a Staff") + " account. Choose \"" + (profile.role === "owner" ? "Owner" : "Staff") + "\" under Sign in as.", "warning");
+          setLoginRole(profile.role);
+          return;
+        }
+
+        clearLoginFailures();
+        const remember = document.getElementById("login-remember");
+        if (remember && remember.checked) SafeStorage.set("mk_remembered_username", profile.username);
+        else SafeStorage.remove("mk_remembered_username");
+
+        startSession(profile);
+        logActivity("USER_LOGIN", "Signed in as @" + profile.username + " (" + profile.role + ").");
+        passwordInput.value = "";
+        enterApplicationShell();
+        showToast("Assalamu Alaikum, " + profile.full_name + "!", "success");
+      } catch (err) {
+        showToast(err.message || "Sign-in failed.", "error");
+      } finally {
+        setBusy("form-login", false);
+      }
+    }
+
+    async function handleOwnerRegister(e) {
+      e.preventDefault();
+      if (authBusy) return;
+      if (hasOwner()) {
+        showToast("An Owner account already exists.", "error");
+        applyAuthMode();
+        return;
+      }
+      const fullName = document.getElementById("reg-fullname").value.trim();
+      const username = document.getElementById("reg-username").value.trim();
+      const mobile = document.getElementById("reg-mobile").value.trim();
+      const email = document.getElementById("reg-email").value.trim();
+      const pass = document.getElementById("reg-password").value;
+      const confirm = document.getElementById("reg-confirm").value;
+      const recovery = normalizeRecoveryCode(document.getElementById("reg-recovery").value);
+
+      if (fullName.length < 2) return showToast("Please enter a valid full name.", "error");
+      if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) return showToast("Username must be 3–30 letters, numbers, or underscores.", "error");
+      if (!validPhone(mobile)) return showToast("Enter a valid mobile number (10–15 digits).", "error");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showToast("Enter a valid email address.", "error");
+      if (pass.length < 6) return showToast("Password must be at least 6 characters.", "error");
+      if (pass !== confirm) return showToast("Passwords do not match.", "error");
+      if (recovery.length < 6) return showToast("Recovery code must be at least 6 characters.", "error");
+
+      setBusy("form-owner-register", true);
+      try {
+        const owner = {
+          id: newId("usr"),
+          full_name: fullName,
+          username,
+          email,
+          mobile,
+          role: "owner",
+          designation: "Maktab Owner",
+          monthly_salary: 0,
+          status: "active",
+          password_hash: await hashSecret(pass),
+          recovery_hash: await hashSecret(recovery)
+        };
+        DB.profiles.push(owner);
+        persistDB();
+        SafeStorage.set("mk_remembered_username", username);
+        startSession(owner);
+        logActivity("OWNER_REGISTERED", "Created Owner account @" + username + ".");
+        document.getElementById("form-owner-register").reset();
+        enterApplicationShell();
+        showToast("Owner account created. Welcome!", "success");
+      } catch (err) {
+        showToast(err.message || "Could not create the account.", "error");
+      } finally {
+        setBusy("form-owner-register", false);
+      }
+    }
+
+    async function handleAccountRecovery(e) {
+      e.preventDefault();
+      if (authBusy) return;
+      if (!checkLoginLock()) return;
+      const username = document.getElementById("rec-username").value.trim().toLowerCase();
+      const email = document.getElementById("rec-email").value.trim().toLowerCase();
+      const code = normalizeRecoveryCode(document.getElementById("rec-code").value);
+      const newUsername = document.getElementById("rec-new-username").value.trim();
+      const newPass = document.getElementById("rec-newpass").value;
+      const confirmPass = document.getElementById("rec-confirmpass").value;
+
+      const profile = DB.profiles.find(p => String(p.email).toLowerCase() === email && (!username || p.username.toLowerCase() === username));
+      if (profile && profile.role !== "owner") {
+        showToast("Staff accounts cannot use recovery codes. Ask the Owner to reset your password.", "warning");
+        return;
+      }
+
+      setBusy("form-recovery", true);
+      try {
+        const ok = profile && profile.recovery_hash ? await verifySecret(code, profile.recovery_hash) : (await hashSecret(code), false);
+        if (!ok) {
+          recordLoginFailure();
+          showToast("Details or recovery code are incorrect.", "error");
+          return;
+        }
+
+        const wantUserChange = (recoveryActionMode === "both" || recoveryActionMode === "username") && Boolean(newUsername);
+        const wantPassChange = (recoveryActionMode === "both" || recoveryActionMode === "password") && Boolean(newPass);
+        if (!wantUserChange && !wantPassChange) return showToast("Enter a new username, a new password, or both.", "warning");
+
+        if (wantUserChange) {
+          if (!/^[a-zA-Z0-9_]{3,30}$/.test(newUsername)) return showToast("New username must be 3–30 letters, numbers, or underscores.", "error");
+          if (DB.profiles.some(p => p.id !== profile.id && p.username.toLowerCase() === newUsername.toLowerCase())) return showToast("That username is already in use.", "error");
+        }
+        if (wantPassChange) {
+          if (newPass.length < 6) return showToast("New password must be at least 6 characters.", "error");
+          if (newPass !== confirmPass) return showToast("New password and confirmation do not match.", "error");
+        }
+
+        const updated = [];
+        if (wantUserChange) { profile.username = newUsername; updated.push("username"); }
+        if (wantPassChange) { profile.password_hash = await hashSecret(newPass); updated.push("password"); }
+        clearLoginFailures();
+        persistDB();
+        SafeStorage.set("mk_remembered_username", profile.username);
+        logActivity("ACCOUNT_RECOVERED", "Updated " + updated.join(" & ") + " via recovery code for @" + profile.username + ".");
+        showToast("Updated " + updated.join(" & ") + ". You can now sign in.", "success");
+        document.getElementById("login-username").value = profile.username;
+        document.getElementById("login-password").value = "";
+        document.getElementById("form-recovery").reset();
+        switchAuthTab("login");
+      } catch (err) {
+        showToast(err.message || "Recovery failed.", "error");
+      } finally {
+        setBusy("form-recovery", false);
+      }
+    }
+
+    async function handleChangeCredentials(e) {
+      e.preventDefault();
+      if (authBusy) return;
+      if (!checkLoginLock()) return;
+      const curUsername = document.getElementById("chg-current-username").value.trim();
+      const curPass = document.getElementById("chg-current-password").value;
+      const newUsername = document.getElementById("chg-new-username").value.trim();
+      const newPass = document.getElementById("chg-new-password").value;
+      const confirmPass = document.getElementById("chg-confirm-password").value;
+
+      if (!newUsername && !newPass) return showToast("Enter a new username, a new password, or both.", "warning");
+
+      setBusy("form-change-credentials", true);
+      try {
+        const profile = findProfileByUsername(curUsername);
+        const ok = profile && profile.password_hash ? await verifySecret(curPass, profile.password_hash) : (await hashSecret(curPass), false);
+        if (!ok) {
+          recordLoginFailure();
+          showToast("Current username or password is incorrect.", "error");
+          return;
+        }
+        if (profile.status !== "active") return showToast("Deactivated accounts cannot change credentials.", "error");
+
+        const updated = [];
+        if (newUsername && newUsername !== profile.username) {
+          if (!/^[a-zA-Z0-9_]{3,30}$/.test(newUsername)) return showToast("New username must be 3–30 letters, numbers, or underscores.", "error");
+          if (DB.profiles.some(p => p.id !== profile.id && p.username.toLowerCase() === newUsername.toLowerCase())) return showToast("That username is already taken.", "error");
+        }
+        if (newPass) {
+          if (newPass.length < 6) return showToast("New password must be at least 6 characters.", "error");
+          if (newPass !== confirmPass) return showToast("New password and confirmation do not match.", "error");
+        }
+        if (newUsername && newUsername !== profile.username) { profile.username = newUsername; updated.push("username"); }
+        if (newPass) { profile.password_hash = await hashSecret(newPass); updated.push("password"); }
+        if (updated.length === 0) return showToast("Nothing to change.", "warning");
+
+        clearLoginFailures();
+        persistDB();
+        SafeStorage.set("mk_remembered_username", profile.username);
+        logActivity("CREDENTIALS_CHANGED", "Updated " + updated.join(" & ") + " for @" + profile.username + ".");
+        document.getElementById("login-username").value = profile.username;
+        document.getElementById("login-password").value = "";
+        document.getElementById("form-change-credentials").reset();
+        switchAuthTab("login");
+        showToast("Updated " + updated.join(" & ") + ". You can now sign in.", "success");
+      } catch (err) {
+        showToast(err.message || "Could not update credentials.", "error");
+      } finally {
+        setBusy("form-change-credentials", false);
+      }
+    }
+
+    function handleLogout() {
+      if (currentSession) logActivity("USER_LOGOUT", "@" + currentSession.username + " signed out.");
+      currentSession = null;
+      SafeStorage.remove(SESSION_KEY);
+      showAuthScreen();
+      const savedUser = SafeStorage.get("mk_remembered_username", "");
+      document.getElementById("login-username").value = savedUser || "";
+      document.getElementById("login-password").value = "";
+      document.querySelectorAll("[id^=modal-]").forEach(m => m.classList.add("hidden"));
+      showToast("Signed out.", "info");
+    }
+
+    // =====================================================================
+    // APP SHELL
+    // =====================================================================
+    function enterApplicationShell() {
+      if (!revalidateSession()) return;
+      document.getElementById("view-auth").classList.add("hidden");
+      document.getElementById("view-app").classList.remove("hidden");
+      document.getElementById("att-date-input").value = selectedAttendanceDate;
+      renderAppShellHeader();
+      navigateModule(currentModule || "dashboard");
+    }
+
+    function renderAppShellHeader() {
+      if (!currentSession) return;
+      const isOwner = currentSession.role === "owner";
+      document.getElementById("app-brand-name").textContent = DB.settings.maktab_name || "Maktab-E-Khaleel";
+      document.getElementById("header-user-display").textContent = currentSession.full_name + " (@" + currentSession.username + ")";
+      const badge = document.getElementById("header-role-badge");
+      badge.textContent = isOwner ? "OWNER" : "STAFF";
+      badge.className = isOwner
+        ? "text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-blue-700 text-white shrink-0"
+        : "text-[10px] font-bold uppercase px-2 py-0.5 rounded-full bg-emerald-700 text-white shrink-0";
+      document.title = (DB.settings.maktab_name || "Maktab-E-Khaleel") + " — Maktab Management";
+      const activeCount = DB.students.filter(s => s.status === "active").length;
+      const sideBadge = document.getElementById("side-badge-students");
+      if (sideBadge) sideBadge.textContent = String(activeCount);
+    }
+
+    // Module Navigation
+    function navigateModule(mod) {
+      currentModule = mod;
+      const modules = ["dashboard", "attendance", "students", "fees", "staff", "reports", "settings"];
+      modules.forEach(m => {
+        const sec = document.getElementById("module-" + m);
+        if (sec) sec.classList.toggle("hidden", m !== mod);
+
+        const sideBtn = document.getElementById("side-nav-" + m);
+        if (sideBtn) {
+          if (m === mod) {
+            sideBtn.className = "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all bg-blue-800 text-white shadow";
+          } else {
+            sideBtn.className = "w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition-all text-secondary-custom hover:bg-blue-500/10";
+          }
+        }
+
+        const mobBtn = document.getElementById("mob-nav-" + m);
+        if (mobBtn) {
+          if (m === mod) {
+            mobBtn.className = "flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-bold text-blue-700 dark:text-blue-400";
+          } else {
+            mobBtn.className = "flex flex-col items-center justify-center py-1 rounded-lg text-[10px] font-medium text-secondary-custom";
+          }
+        }
+      });
+
+      renderCurrentModule();
+    }
+
+    function renderCurrentModule() {
+      if (!currentSession || !revalidateSession()) return;
+      if (currentModule === "dashboard") renderDashboardModule();
+      if (currentModule === "attendance") renderAttendanceModule();
+      if (currentModule === "students") renderStudentsModule();
+      if (currentModule === "fees") renderFeesModule();
+      if (currentModule === "staff") renderStaffModule();
+      if (currentModule === "reports") renderReportsModule();
+      if (currentModule === "settings") renderSettingsModule();
+    }
+
+    // Calculate Overall Attendance Percentage (Excluding Sundays & Non-Active Students - Section 12.2 & 13.1)
+    function calculateOverallAttendanceStats() {
+      const activeIds = new Set(DB.students.filter(s => s.status === "active").map(s => s.id));
+      let totalPresent = 0;
+      let totalMarked = 0;
+
+      Object.keys(DB.attendance).forEach(dateKey => {
+        if (DB.settings.sunday_holiday && isDateSunday(dateKey)) {
+          return; // Exclude Sunday from attendance percentage calculations!
+        }
+        const dayMap = DB.attendance[dateKey] || {};
+        Object.keys(dayMap).forEach(stuId => {
+          if (!activeIds.has(stuId)) return; // Exclude non-active students!
+          const st = dayMap[stuId].status;
+          if (st === "Present") {
+            totalPresent++;
+            totalMarked++;
+          } else if (st === "Absent") {
+            totalMarked++;
+          }
+        });
+      });
+
+      const pct = totalMarked > 0 ? ((totalPresent / totalMarked) * 100).toFixed(1) : null;
+      return { totalPresent, totalMarked, pct };
+    }
+
+    // Calculate Financial Totals from Database Records
+    // Strictly returns null if user is not Owner!
+    function getOwnerFinancialSummary() {
+      if (!currentSession || currentSession.role !== "owner") {
+        return null;
+      }
+      const totalFeesCollected = DB.fees.reduce((sum, f) => sum + (Number(f.amount_paid) || 0), 0);
+      const totalFeesDue = DB.fees.reduce((sum, f) => sum + (Number(f.amount_due) || 0), 0);
+      const totalPendingFees = DB.fees.reduce((sum, f) => sum + Math.max(0, (Number(f.amount_due) || 0) - (Number(f.amount_paid) || 0)), 0);
+      const totalStaffSalary = DB.salary_payments.reduce((sum, s) => sum + (Number(s.amount) || 0), 0);
+      const netBalance = totalFeesCollected - totalStaffSalary; // Balance = Total Fees - Total Staff Salary
+
+      const paidCount = DB.fees.filter(f => f.status === "Paid").length;
+      const partialCount = DB.fees.filter(f => f.status === "Partial").length;
+      const pendingCount = DB.fees.filter(f => f.status === "Pending").length;
+
+      return {
+        totalFeesCollected,
+        totalFeesDue,
+        totalPendingFees,
+        totalStaffSalary,
+        netBalance,
+        paidCount,
+        partialCount,
+        pendingCount
+      };
+    }
+
+    // =====================================================================
+    // RENDER MODULE 1: DASHBOARD
+    // =====================================================================
+    function renderDashboardModule() {
+      const activeStudents = DB.students.filter(s => s.status === "active");
+      const nonActiveStudents = DB.students.filter(s => s.status !== "active");
+
+      document.getElementById("dash-welcome-title").textContent = "Assalamu Alaikum, " + currentSession.full_name;
+      document.getElementById("dash-date-badge").textContent = formatLongDate(todayStr());
+      document.getElementById("dash-day-status").textContent = (DB.settings.sunday_holiday && isDateSunday(todayStr())) ? "Weekly Holiday (Sunday)" : "Normal Working Day";
+      let subText = "Quick overview of student attendance, active classes, and maktab operations.";
+      if (DB.students.length === 0) {
+        subText = "Welcome! Start by adding your students, then mark attendance each day.";
+      } else if (currentSession.role === "owner") {
+        const lb = DB.settings.last_backup_at;
+        const ageDays = lb ? (Date.now() - new Date(lb.replace(" ", "T")).getTime()) / 86400000 : Infinity;
+        if (ageDays > 7) subText = "⚠️ " + (lb ? "Your last backup is over a week old." : "You have not downloaded a backup yet.") + " Open Settings → Download Backup.";
+      }
+      document.getElementById("dash-welcome-subtitle").textContent = subText;
+      document.getElementById("stat-active-students").textContent = String(activeStudents.length);
+      document.getElementById("stat-inactive-students").textContent = nonActiveStudents.length + " non-active excluded";
+
+      const dayMap = DB.attendance[selectedAttendanceDate] || {};
+      let todayP = 0, todayA = 0, todayNM = 0, pendingAlerts = 0;
+      activeStudents.forEach(s => {
+        const rec = dayMap[s.id] || { status: "Not Marked", whatsapp_status: "Not Sent" };
+        if (rec.status === "Present") todayP++;
+        else if (rec.status === "Absent") {
+          todayA++;
+          if (rec.whatsapp_status !== "Sent") pendingAlerts++;
+        } else {
+          todayNM++;
+        }
+      });
+
+      document.getElementById("stat-today-present").textContent = String(todayP);
+      document.getElementById("stat-today-absent").textContent = todayA + " Absent • " + todayNM + " Unmarked";
+      document.getElementById("stat-pending-alerts").textContent = String(pendingAlerts);
+
+      const overall = calculateOverallAttendanceStats();
+      document.getElementById("stat-attendance-pct").textContent = overall.pct === null ? "—" : overall.pct + "%";
+      document.getElementById("dash-att-date-label").textContent = "Date: " + selectedAttendanceDate + (isDateSunday(selectedAttendanceDate) ? " (Sunday Holiday)" : "");
+
+      // OWNER-ONLY FINANCIAL SUMMARY
+      // Staff dashboard responses must NEVER expose salary totals, fee balances, or restricted financial info.
+      const finContainer = document.getElementById("dash-owner-finance-container");
+      if (currentSession.role === "owner") {
+        const fin = getOwnerFinancialSummary();
+        finContainer.innerHTML = `
+          <div class="neu-card p-5 border-l-4 border-l-emerald-600">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
+              <div>
+                <div class="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
+                  <span>🔒 Owner-Only Financial Summary</span>
+                </div>
+                <h3 class="text-base font-extrabold mt-0.5">Maktab Treasury &amp; Fee Balance (₹)</h3>
+              </div>
+              <div class="flex gap-2">
+                <button type="button" onclick="navigateModule('fees')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold">Fee Ledger →</button>
+                <button type="button" onclick="navigateModule('staff')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold">Staff Salaries →</button>
+              </div>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
+              <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+                <div class="text-xs text-muted-custom font-semibold">Total Fees Collected</div>
+                <div class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">${formatINR(fin.totalFeesCollected)}</div>
+                <div class="text-[11px] text-secondary-custom mt-1">${fin.paidCount} Paid • ${fin.partialCount} Partial • ${fin.pendingCount} Pending (${formatINR(fin.totalPendingFees)} due)</div>
+              </div>
+              <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+                <div class="text-xs text-muted-custom font-semibold">Total Staff Salary Paid</div>
+                <div class="text-xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">${formatINR(fin.totalStaffSalary)}</div>
+                <div class="text-[11px] text-secondary-custom mt-1">${DB.salary_payments.length} recorded salary disbursements</div>
+              </div>
+              <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+                <div class="text-xs text-muted-custom font-semibold">Net Maktab Balance (Fees − Salary)</div>
+                <div class="text-xl font-extrabold text-blue-700 dark:text-blue-400 mt-1">${formatINR(fin.netBalance)}</div>
+                <div class="text-[11px] text-secondary-custom mt-1">Formula: Total Fees − Total Staff Salary</div>
+              </div>
+            </div>
+          </div>
+        `;
+      } else {
+        // Completely omitted from DOM for Staff (not hidden HTML!) per Section 25
+        finContainer.innerHTML = `
+          <div class="neu-card p-4 border-l-4 border-l-slate-500 flex items-center justify-between">
+            <div class="text-xs text-secondary-custom">
+              <strong class="text-primary">Operational Staff Mode Active:</strong> Financial totals, fee balances, and salary records are restricted to the Owner account.
+            </div>
+            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-500/15 font-bold">Restricted</span>
+          </div>
+        `;
+      }
+
+      // Render Today's Attendance Progress Bars
+      const totalAct = activeStudents.length || 1;
+      const pPct = Math.round((todayP / totalAct) * 100);
+      const aPct = Math.round((todayA / totalAct) * 100);
+      const nmPct = Math.max(0, 100 - pPct - aPct);
+
+      document.getElementById("dash-attendance-bars").innerHTML = `
+        <div>
+          <div class="flex justify-between text-xs font-semibold mb-1">
+            <span class="text-emerald-600 dark:text-emerald-400">Present (${todayP} students)</span>
+            <span>${pPct}%</span>
+          </div>
+          <div class="w-full h-2.5 rounded-full bg-slate-500/15 overflow-hidden">
+            <div class="h-full bg-emerald-500 rounded-full" style="width: ${pPct}%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs font-semibold mb-1">
+            <span class="text-rose-600 dark:text-rose-400">Absent (${todayA} students)</span>
+            <span>${aPct}%</span>
+          </div>
+          <div class="w-full h-2.5 rounded-full bg-slate-500/15 overflow-hidden">
+            <div class="h-full bg-rose-500 rounded-full" style="width: ${aPct}%"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between text-xs font-semibold mb-1">
+            <span class="text-muted-custom">Not Marked (${todayNM} students)</span>
+            <span>${nmPct}%</span>
+          </div>
+          <div class="w-full h-2.5 rounded-full bg-slate-500/15 overflow-hidden">
+            <div class="h-full bg-slate-400 rounded-full" style="width: ${nmPct}%"></div>
+          </div>
+        </div>
+      `;
+
+      // Render Class Distribution
+      const classCounts = {};
+      activeStudents.forEach(s => {
+        classCounts[s.class_level] = (classCounts[s.class_level] || 0) + 1;
+      });
+      document.getElementById("dash-class-distribution").innerHTML = Object.entries(classCounts).map(([cls, count]) => `
+        <div class="flex items-center justify-between p-2.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+          <span class="text-xs font-bold">${esc(cls)}</span>
+          <span class="text-xs font-extrabold px-2.5 py-0.5 rounded-full bg-blue-600/15 text-blue-700 dark:text-blue-300">${count} Active</span>
+        </div>
+      `).join("");
+      if (!activeStudents.length) {
+        document.getElementById("dash-class-distribution").innerHTML = '<div class="text-xs text-muted-custom p-2.5">No active students yet. Tap “Add Student” to begin.</div>';
+      }
+    }
+
+    function handleQuickFeeAction() {
+      if (currentSession.role !== "owner") {
+        showToast("Access Denied: Fee collection and financial summaries are restricted to the Owner.", "error");
+        return;
+      }
+      navigateModule("fees");
+      openFeeModal();
+    }
+
+    // =====================================================================
+    // RENDER MODULE 2: FAST ATTENDANCE & WHATSAPP ALERTS
+    // =====================================================================
+    function handleAttendanceDateChange(val) {
+      if (!val) return;
+      selectedAttendanceDate = val;
+      dateFollowsToday = (val === todayStr());
+      attendanceDirty = false;
+      renderAttendanceModule();
+    }
+
+    function setAttendanceDateOffset(offsetDays) {
+      selectedAttendanceDate = addDaysToDateStr(todayStr(), offsetDays);
+      dateFollowsToday = (offsetDays === 0);
+      document.getElementById("att-date-input").value = selectedAttendanceDate;
+      attendanceDirty = false;
+      renderAttendanceModule();
+    }
+
+    function switchToWorkingDay() {
+      selectedAttendanceDate = addDaysToDateStr(selectedAttendanceDate, -1);
+      dateFollowsToday = (selectedAttendanceDate === todayStr());
+      document.getElementById("att-date-input").value = selectedAttendanceDate;
+      attendanceDirty = false;
+      renderAttendanceModule();
+    }
+
+    function ensureAttendanceDayInitialized(dateStr) {
+      if (!DB.attendance[dateStr]) {
+        DB.attendance[dateStr] = {};
+      }
+    }
+
+    function markAllAttendance(targetStatus) {
+      if (DB.settings.sunday_holiday && isDateSunday(selectedAttendanceDate)) {
+        showToast("Sunday is an automatic weekly holiday. Switch to a Monday–Saturday working day.", "warning");
+        return;
+      }
+      ensureAttendanceDayInitialized(selectedAttendanceDate);
+      const activeStudents = DB.students.filter(s => s.status === "active");
+      const alreadyDifferent = activeStudents.filter(s => {
+        const r = DB.attendance[selectedAttendanceDate][s.id];
+        return r && r.status !== "Not Marked" && r.status !== targetStatus;
+      }).length;
+      if (alreadyDifferent > 0 && !window.confirm("This will change " + alreadyDifferent + " student(s) already marked on " + selectedAttendanceDate + ". Continue?")) return;
+      activeStudents.forEach(s => {
+        const prev = DB.attendance[selectedAttendanceDate][s.id] || { whatsapp_status: "Not Sent" };
+        DB.attendance[selectedAttendanceDate][s.id] = {
+          status: targetStatus,
+          whatsapp_status: prev.whatsapp_status || "Not Sent"
+        };
+      });
+      attendanceDirty = true;
+      persistDB();
+      renderAttendanceModule();
+      showToast(`Marked all ${activeStudents.length} active students as ${targetStatus}.`, "success");
+    }
+
+    function setStudentAttendanceStatus(studentId, status) {
+      if (DB.settings.sunday_holiday && isDateSunday(selectedAttendanceDate)) {
+        showToast("Sunday is configured as a weekly holiday.", "warning");
+        return;
+      }
+      ensureAttendanceDayInitialized(selectedAttendanceDate);
+      const prev = DB.attendance[selectedAttendanceDate][studentId] || { whatsapp_status: "Not Sent" };
+      DB.attendance[selectedAttendanceDate][studentId] = {
+        status: status,
+        whatsapp_status: prev.whatsapp_status || "Not Sent"
+      };
+      attendanceDirty = true;
+      persistDB();
+      renderAttendanceModule();
+    }
+
+    function saveDailyAttendance() {
+      attendanceDirty = false;
+      const activeStudents = DB.students.filter(s => s.status === "active");
+      const dayMap = DB.attendance[selectedAttendanceDate] || {};
+      let p = 0, a = 0;
+      activeStudents.forEach(s => {
+        const st = (dayMap[s.id] || {}).status;
+        if (st === "Present") p++;
+        if (st === "Absent") a++;
+      });
+      logActivity("ATTENDANCE_SAVED", `Saved attendance for ${selectedAttendanceDate}: ${p} Present, ${a} Absent.`);
+      persistDB();
+      renderAttendanceModule();
+      showToast(`Attendance saved for ${selectedAttendanceDate} (${p} Present, ${a} Absent).`, "success");
+    }
+
+    function renderAttendanceModule() {
+      const isSun = DB.settings.sunday_holiday && isDateSunday(selectedAttendanceDate);
+      const sunBanner = document.getElementById("att-sunday-banner");
+      if (sunBanner) sunBanner.classList.toggle("hidden", !isSun);
+
+      const unsavedEl = document.getElementById("att-unsaved-indicator");
+      if (unsavedEl) unsavedEl.textContent = attendanceDirty ? "Unsaved changes*" : "Saved";
+
+      ensureAttendanceDayInitialized(selectedAttendanceDate);
+      const dayMap = DB.attendance[selectedAttendanceDate] || {};
+      const activeStudents = DB.students.filter(s => s.status === "active");
+
+      let pCount = 0, aCount = 0, nmCount = 0;
+      activeStudents.forEach(s => {
+        const st = (dayMap[s.id] || { status: "Not Marked" }).status;
+        if (st === "Present") pCount++;
+        else if (st === "Absent") aCount++;
+        else nmCount++;
+      });
+
+      document.getElementById("att-count-present").textContent = String(pCount);
+      document.getElementById("att-count-absent").textContent = String(aCount);
+      document.getElementById("att-count-unmarked").textContent = String(nmCount);
+
+      const search = (document.getElementById("att-search-input").value || "").trim().toLowerCase();
+      const clsFilter = document.getElementById("att-class-filter").value;
+      const statusFilter = document.getElementById("att-status-filter").value;
+
+      const filtered = activeStudents.filter(s => {
+        const rec = dayMap[s.id] || { status: "Not Marked" };
+        if (clsFilter !== "ALL" && s.class_level !== clsFilter) return false;
+        if (statusFilter !== "ALL" && rec.status !== statusFilter) return false;
+        if (search && !s.student_name.toLowerCase().includes(search) && !(s.roll_no || "").toLowerCase().includes(search)) return false;
+        return true;
+      });
+
+      const listEl = document.getElementById("att-student-list");
+      if (isSun) {
+        listEl.innerHTML = `
+          <div class="col-span-full neu-card p-6 text-center text-sm text-secondary-custom">
+            🏖️ <strong>Sunday Holiday (${selectedAttendanceDate})</strong> — Attendance marking is paused on Sundays so weekly holidays never distort student attendance percentages.
+          </div>
+        `;
+      } else if (filtered.length === 0) {
+        listEl.innerHTML = `<div class="col-span-full neu-card p-6 text-center text-xs text-muted-custom">No active students match the current filter.</div>`;
+      } else {
+        listEl.innerHTML = filtered.map(s => {
+          const rec = dayMap[s.id] || { status: "Not Marked", whatsapp_status: "Not Sent" };
+          const isP = rec.status === "Present";
+          const isA = rec.status === "Absent";
+          return `
+            <div class="neu-card-sm p-3.5 flex items-center justify-between gap-2 ${isA ? 'border-l-4 border-l-rose-500' : (isP ? 'border-l-4 border-l-emerald-500' : '')}">
+              <div class="min-w-0">
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-mono font-bold px-1.5 py-0.5 rounded bg-slate-500/15">${esc(s.roll_no)}</span>
+                  <span class="font-bold text-sm truncate">${esc(s.student_name)}</span>
+                </div>
+                <div class="text-[11px] text-muted-custom truncate mt-0.5">
+                  ${esc(s.class_level)} • Guardian: ${esc(s.guardian_name)}
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 shrink-0">
+                <button type="button" onclick="setStudentAttendanceStatus('${s.id}', 'Present')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${isP ? 'bg-emerald-600 text-white shadow' : 'neu-btn-secondary text-secondary-custom'}">
+                  Present
+                </button>
+                <button type="button" onclick="setStudentAttendanceStatus('${s.id}', 'Absent')" class="px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${isA ? 'bg-rose-600 text-white shadow' : 'neu-btn-secondary text-secondary-custom'}">
+                  Absent
+                </button>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+
+      // Render Absent Parent Communication Panel
+      const absentStudents = activeStudents.filter(s => (dayMap[s.id] || {}).status === "Absent");
+      document.getElementById("absent-panel-count").textContent = absentStudents.length + " Absent";
+      const absentListEl = document.getElementById("att-absent-list");
+
+      if (absentStudents.length === 0) {
+        absentListEl.innerHTML = `<div class="p-4 rounded-xl text-xs text-muted-custom text-center" style="background-color: var(--bg-input);">No students marked Absent on ${selectedAttendanceDate}.</div>`;
+      } else {
+        absentListEl.innerHTML = absentStudents.map(s => {
+          const rec = dayMap[s.id] || { status: "Absent", whatsapp_status: "Not Sent" };
+          const hasPhone = Boolean(s.parent_mobile && s.parent_mobile.replace(/\D/g, "").length >= 10);
+          const waBadgeColor = rec.whatsapp_status === "Sent"
+            ? "bg-emerald-500/20 text-emerald-700 dark:text-emerald-300"
+            : (rec.whatsapp_status === "Send Later" ? "bg-amber-500/20 text-amber-700 dark:text-amber-300" : "bg-rose-500/20 text-rose-700 dark:text-rose-300");
+
+          return `
+            <div class="p-3.5 rounded-xl border border-subtle-custom flex flex-col sm:flex-row sm:items-center justify-between gap-3" style="background-color: var(--bg-input);">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="font-bold text-sm">${esc(s.student_name)}</span>
+                  <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${waBadgeColor}">${rec.whatsapp_status}</span>
+                </div>
+                <div class="text-xs text-secondary-custom mt-0.5">
+                  Guardian: <strong>${esc(s.guardian_name)}</strong> • WhatsApp: ${hasPhone ? `<span class="font-mono">${esc(fmtPhone(s.parent_mobile))}</span>` : `<span class="text-rose-600 font-bold">⚠️ Missing Number</span>`}
+                </div>
+              </div>
+              <div class="flex flex-wrap items-center gap-2">
+                <select onchange="updateAbsentWhatsappStatus('${s.id}', this.value)" class="neu-input !w-auto !py-1.5 !px-2.5 text-xs font-semibold" aria-label="Message Status">
+                  <option value="Not Sent" ${rec.whatsapp_status === "Not Sent" ? "selected" : ""}>Status: Not Sent</option>
+                  <option value="Send Later" ${rec.whatsapp_status === "Send Later" ? "selected" : ""}>Status: Send Later</option>
+                  <option value="Sent" ${rec.whatsapp_status === "Sent" ? "selected" : ""}>Status: Sent</option>
+                </select>
+                ${hasPhone ? `<a href="${buildStudentWhatsAppUrl(s.id)}" target="_blank" rel="noopener noreferrer" onclick="handleDirectWhatsAppAnchor(event, '${s.id}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white shadow flex items-center gap-1.5 no-underline"><span>💬 Send WhatsApp</span></a>` : `<button type="button" onclick="triggerAbsentWhatsAppChat('${s.id}')" class="px-3.5 py-1.5 rounded-xl text-xs font-bold bg-amber-600 hover:bg-amber-700 text-white shadow flex items-center gap-1.5"><span>⚠️ Add Number &amp; Send</span></button>`}
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    function updateAbsentWhatsappStatus(studentId, newStatus) {
+      ensureAttendanceDayInitialized(selectedAttendanceDate);
+      if (!DB.attendance[selectedAttendanceDate][studentId]) {
+        DB.attendance[selectedAttendanceDate][studentId] = { status: "Absent", whatsapp_status: newStatus };
+      } else {
+        DB.attendance[selectedAttendanceDate][studentId].whatsapp_status = newStatus;
+      }
+      persistDB();
+      renderAttendanceModule();
+      showToast("Updated WhatsApp alert status to: " + newStatus, "info");
+    }
+
+    let activeWaStudentId = null;
+
+    function getStudentWhatsAppPayload(studentId) {
+      const stu = DB.students.find(s => s.id === studentId);
+      if (!stu) return null;
+      const digits = phoneDigits(stu.parent_mobile);
+      const cleanPhone = waPhone(stu.parent_mobile);
+      const tpl = DB.settings.whatsapp_template || "Assalamu Alaikum {guardian}, your ward {student} ({class}) was marked Absent on {date} at {maktab}.";
+      const msg = tpl.replace(/\{(guardian|student|class|date|maktab)\}/g, (m, k) => ({
+        guardian: stu.guardian_name, student: stu.student_name, class: stu.class_level,
+        date: selectedAttendanceDate, maktab: DB.settings.maktab_name || "the Maktab"
+      }[k]));
+      const webUrl = "https://api.whatsapp.com/send?phone=" + cleanPhone + "&text=" + encodeURIComponent(msg);
+      const appUrl = "whatsapp://send?phone=" + cleanPhone + "&text=" + encodeURIComponent(msg);
+      return { stu, digits, cleanPhone, msg, webUrl, appUrl };
+    }
+
+    function buildStudentWhatsAppUrl(studentId) {
+      const payload = getStudentWhatsAppPayload(studentId);
+      return payload ? payload.webUrl : "https://api.whatsapp.com/";
+    }
+
+    function handleDirectWhatsAppAnchor(e, studentId) {
+      // Also open the in-app WhatsApp Preview Modal so if the user is in a sandboxed preview frame that blocks external tabs, they can still see the message, use the app deep-link, or copy it!
+      triggerAbsentWhatsAppChat(studentId, true);
+    }
+
+    function triggerAbsentWhatsAppChat(studentId, fromAnchorClick = false) {
+      const payload = getStudentWhatsAppPayload(studentId);
+      if (!payload) return;
+      const { stu, digits, cleanPhone, msg, webUrl, appUrl } = payload;
+
+      // Section 13.4: If parent WhatsApp number is missing, show a prompt rather than pretending a message was sent!
+      if (digits.length < 10) {
+        document.getElementById("missing-phone-student-id").value = stu.id;
+        document.getElementById("missing-phone-input").value = "";
+        document.getElementById("missing-phone-desc").textContent =
+          `Parent WhatsApp number is missing for ${esc(stu.student_name)} (Guardian: ${esc(stu.guardian_name)}). please enter the guardian's WhatsApp number before launching click-to-chat:`;
+        openModal("modal-missing-phone");
+        return;
+      }
+
+      activeWaStudentId = studentId;
+      document.getElementById("wa-modal-title").textContent = "WhatsApp to " + stu.guardian_name + " (" + stu.student_name + ")";
+      document.getElementById("wa-modal-phone").textContent = "+" + cleanPhone + " • " + stu.class_level;
+      document.getElementById("wa-modal-message").textContent = msg;
+      document.getElementById("wa-modal-link-web").href = webUrl;
+      document.getElementById("wa-modal-link-app").href = appUrl;
+      openModal("modal-whatsapp-preview");
+
+      // Defer re-rendering the list slightly so native <a> click navigation is never interrupted by DOM replacement!
+      setTimeout(() => {
+        updateAbsentWhatsappStatus(studentId, "Sent");
+        logActivity("WHATSAPP_CLICK_TO_CHAT", `Prepared WhatsApp absence notice for ${esc(stu.student_name)} (+${cleanPhone}).`);
+      }, 150);
+
+      if (!fromAnchorClick) {
+        try {
+          window.open(webUrl, "_blank", "noopener,noreferrer");
+        } catch (err) {}
+      }
+    }
+
+    function markCurrentWaModalSent() {
+      if (activeWaStudentId) {
+        setTimeout(() => {
+          updateAbsentWhatsappStatus(activeWaStudentId, "Sent");
+          closeModal("modal-whatsapp-preview");
+        }, 150);
+      }
+    }
+
+    function copyWaModalMessage() {
+      const text = document.getElementById("wa-modal-message").textContent || "";
+      const temp = document.createElement("textarea");
+      temp.value = text;
+      document.body.appendChild(temp);
+      temp.select();
+      try {
+        document.execCommand("copy");
+      } catch (e) {}
+      temp.remove();
+      showToast("Copied prefilled WhatsApp absence message to clipboard!", "success");
+    }
+
+    function handleSaveMissingPhone(e) {
+      e.preventDefault();
+      const stuId = document.getElementById("missing-phone-student-id").value;
+      const phone = document.getElementById("missing-phone-input").value.trim();
+      const stu = DB.students.find(s => s.id === stuId);
+      if (!stu) return;
+      if (!validPhone(phone)) {
+        showToast("Enter a valid WhatsApp number (10–15 digits).", "error");
+        return;
+      }
+      stu.parent_mobile = phone;
+      persistDB();
+      closeModal("modal-missing-phone");
+      showToast("Saved parent WhatsApp number for " + stu.student_name, "success");
+      triggerAbsentWhatsAppChat(stuId);
+    }
+
+    function scrollToAbsentPanel() {
+      const el = document.getElementById("att-absent-whatsapp-panel");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+
+    // =====================================================================
+    // RENDER MODULE 3: STUDENT MANAGEMENT
+    // =====================================================================
+    function renderStudentsModule() {
+      const search = (document.getElementById("stu-search-input").value || "").trim().toLowerCase();
+      const clsFilter = document.getElementById("stu-class-filter").value;
+      const statusFilter = document.getElementById("stu-status-filter").value;
+
+      const filtered = DB.students.filter(s => {
+        if (clsFilter !== "ALL" && s.class_level !== clsFilter) return false;
+        if (statusFilter !== "ALL" && s.status !== statusFilter) return false;
+        if (
+          search &&
+          !s.student_name.toLowerCase().includes(search) &&
+          !s.guardian_name.toLowerCase().includes(search) &&
+          !(s.parent_mobile || "").includes(search) &&
+          !(s.roll_no || "").toLowerCase().includes(search)
+        ) {
+          return false;
+        }
+        return true;
+      });
+
+      const container = document.getElementById("students-list-container");
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="col-span-full neu-card p-6 text-center text-xs text-muted-custom">No students match your search criteria.</div>`;
+        return;
+      }
+
+      const statusBadgeMap = {
+        active: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+        paused: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+        inactive: "bg-rose-500/15 text-rose-700 dark:text-rose-300",
+        archived: "bg-slate-500/20 text-secondary-custom"
+      };
+
+      container.innerHTML = filtered.map(s => `
+        <div class="neu-card p-4 flex flex-col justify-between gap-3">
+          <div>
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-[10px] font-mono font-bold px-2 py-0.5 rounded bg-blue-600/15 text-blue-700 dark:text-blue-300">${esc(s.roll_no || "MK")}</span>
+                  <h4 class="font-extrabold text-sm sm:text-base">${esc(s.student_name)}</h4>
+                </div>
+                <p class="text-xs text-secondary-custom mt-1">
+                  Guardian: <strong>${esc(s.guardian_name)}</strong> • Class: <strong>${esc(s.class_level)}</strong>
+                </p>
+              </div>
+              <span class="text-[10px] font-bold uppercase px-2.5 py-0.5 rounded-full ${statusBadgeMap[s.status] || statusBadgeMap.active}">
+                ${esc(s.status)}
+              </span>
+            </div>
+
+            <div class="mt-3 pt-2.5 border-t border-subtle-custom grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+              <div>
+                <span class="text-muted-custom block text-[10px]">WhatsApp / Mobile</span>
+                <span class="font-mono font-semibold">${s.parent_mobile ? esc(fmtPhone(s.parent_mobile)) : "⚠️ Not Set"}</span>
+              </div>
+              <div>
+                <span class="text-muted-custom block text-[10px]">Monthly Fee</span>
+                <span class="font-bold">${currentSession.role === "owner" ? formatINR(s.monthly_fee) : "Owner Only"}</span>
+              </div>
+              <div>
+                <span class="text-muted-custom block text-[10px]">Joined</span>
+                <span class="font-semibold">${esc(s.joining_date)}</span>
+              </div>
+            </div>
+            ${s.notes ? `<p class="text-[11px] text-muted-custom mt-2 italic">"${esc(s.notes)}"</p>` : ""}
+          </div>
+
+          <div class="flex items-center justify-end gap-2 pt-2 border-t border-subtle-custom">
+            <button type="button" onclick="openStudentModal('${s.id}')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold">
+              ✏️ Edit Details
+            </button>
+            <button type="button" onclick="cycleStudentStatus('${s.id}')" class="neu-btn-secondary px-3 py-1.5 text-xs">
+              Change Status
+            </button>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    function openStudentModal(studentId = "") {
+      const modalTitle = document.getElementById("modal-student-title");
+      document.getElementById("stu-edit-id").value = studentId;
+      if (studentId) {
+        const s = DB.students.find(item => item.id === studentId);
+        if (!s) return;
+        modalTitle.textContent = "Edit Student — " + s.student_name;
+        document.getElementById("stu-name").value = s.student_name;
+        document.getElementById("stu-guardian").value = s.guardian_name;
+        document.getElementById("stu-mobile").value = s.parent_mobile || "";
+        document.getElementById("stu-class").value = s.class_level;
+        document.getElementById("stu-fee").value = s.monthly_fee;
+        document.getElementById("stu-joining").value = s.joining_date;
+        document.getElementById("stu-status").value = s.status;
+        document.getElementById("stu-notes").value = s.notes || "";
+      } else {
+        modalTitle.textContent = "Add New Student to Maktab";
+        document.getElementById("form-student").reset();
+        document.getElementById("stu-fee").value = DB.settings.default_monthly_fee || 0;
+        document.getElementById("stu-joining").value = todayStr();
+        document.getElementById("stu-status").value = "active";
+      }
+      openModal("modal-student");
+    }
+
+    function nextRollNo() {
+      let max = 100;
+      DB.students.forEach(s => {
+        const m = /^MK-(\d+)$/.exec(String(s.roll_no || ""));
+        if (m) max = Math.max(max, Number(m[1]));
+      });
+      return "MK-" + (max + 1);
+    }
+
+    function handleSaveStudent(e) {
+      e.preventDefault();
+      const editId = document.getElementById("stu-edit-id").value;
+      const payload = {
+        student_name: document.getElementById("stu-name").value.trim(),
+        guardian_name: document.getElementById("stu-guardian").value.trim(),
+        parent_mobile: document.getElementById("stu-mobile").value.trim(),
+        class_level: document.getElementById("stu-class").value,
+        monthly_fee: Number(document.getElementById("stu-fee").value) || 0,
+        joining_date: document.getElementById("stu-joining").value,
+        status: document.getElementById("stu-status").value,
+        notes: document.getElementById("stu-notes").value.trim()
+      };
+
+      if (payload.student_name.length < 2 || payload.guardian_name.length < 2) {
+        showToast("Enter both the student's name and the guardian's name.", "error");
+        return;
+      }
+      if (payload.parent_mobile && !validPhone(payload.parent_mobile)) {
+        showToast("Enter a valid WhatsApp number (10–15 digits), or leave it blank.", "error");
+        return;
+      }
+      if (!payload.joining_date) payload.joining_date = todayStr();
+      const dupe = DB.students.find(s => s.id !== editId &&
+        s.student_name.trim().toLowerCase() === payload.student_name.toLowerCase() &&
+        s.guardian_name.trim().toLowerCase() === payload.guardian_name.toLowerCase());
+      if (dupe) {
+        showToast("A student with this name and guardian already exists (" + dupe.roll_no + ").", "error");
+        return;
+      }
+
+      if (editId) {
+        const idx = DB.students.findIndex(s => s.id === editId);
+        if (idx > -1) {
+          DB.students[idx] = { ...DB.students[idx], ...payload };
+          logActivity("STUDENT_UPDATED", `Updated student record for ${payload.student_name} (status: ${payload.status}).`);
+          showToast("Updated student: " + payload.student_name, "success");
+        }
+      } else {
+        const newStudent = {
+          id: "stu_" + Date.now(),
+          roll_no: nextRollNo(),
+          ...payload
+        };
+        DB.students.unshift(newStudent);
+        logActivity("STUDENT_CREATED", `Added new student ${payload.student_name} (${payload.class_level}).`);
+        showToast("Added new student: " + payload.student_name, "success");
+      }
+
+      persistDB();
+      closeModal("modal-student");
+      renderAppShellHeader();
+      renderCurrentModule();
+    }
+
+    function cycleStudentStatus(studentId) {
+      const order = ["active", "paused", "inactive", "archived"];
+      const stu = DB.students.find(s => s.id === studentId);
+      if (!stu) return;
+      const next = order[(order.indexOf(stu.status) + 1) % order.length];
+      stu.status = next;
+      persistDB();
+      logActivity("STUDENT_STATUS_CHANGED", `Changed ${esc(stu.student_name)} lifecycle status to ${next}.`);
+      renderAppShellHeader();
+      renderStudentsModule();
+      showToast(`${esc(stu.student_name)} status changed to ${next.toUpperCase()}`, "info");
+    }
+
+    // =====================================================================
+    // RENDER MODULE 4: FEE MANAGEMENT
+    // =====================================================================
+    function renderFeesModule() {
+      const container = document.getElementById("fees-module-content");
+      if (currentSession.role !== "owner") {
+        container.innerHTML = `
+          <div class="neu-card p-8 text-center space-y-3 border-l-4 border-l-rose-600">
+            <div class="text-3xl">🔒</div>
+            <h2 class="text-xl font-extrabold">Owner-Restricted Financial Module</h2>
+            <p class="text-xs sm:text-sm text-secondary-custom max-w-md mx-auto">
+              Staff members are restricted from viewing or modifying fee balances, payment totals, or financial records. Only an authenticated Maktab Owner account can access Fee Management.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      const fin = getOwnerFinancialSummary();
+      const statusBadge = {
+        Paid: "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
+        Partial: "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+        Pending: "bg-rose-500/15 text-rose-700 dark:text-rose-300"
+      };
+
+      const rowsHtml = [...DB.fees].sort((a, b) => String(b.fee_month).localeCompare(String(a.fee_month))).map(f => {
+        const stu = DB.students.find(s => s.id === f.student_id) || { student_name: "Student", roll_no: "MK", class_level: "-" };
+        return `
+          <tr class="border-b border-subtle-custom text-xs">
+            <td class="py-3 px-3 font-bold">${esc(stu.roll_no)} — ${esc(stu.student_name)}<div class="text-[10px] text-muted-custom font-normal">${esc(stu.class_level)}</div></td>
+            <td class="py-3 px-3 font-mono">${esc(f.fee_month)}</td>
+            <td class="py-3 px-3 text-right font-semibold">${formatINR(f.amount_due)}</td>
+            <td class="py-3 px-3 text-right font-bold text-emerald-600 dark:text-emerald-400">${formatINR(f.amount_paid)}</td>
+            <td class="py-3 px-3 text-center">
+              <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${statusBadge[f.status] || statusBadge.Pending}">${esc(f.status)}</span>
+            </td>
+            <td class="py-3 px-3 font-semibold">${esc(f.payment_method)}</td>
+            <td class="py-3 px-3 text-right">
+              <button type="button" onclick="quickMarkFeePaid('${f.id}')" class="neu-btn-secondary px-2.5 py-1 text-[11px] font-bold">
+                ${f.status === "Paid" ? "✓ Paid" : "Mark Paid"}
+              </button>
+            </td>
+          </tr>
+        `;
+      }).join("");
+
+      container.innerHTML = `
+        <div class="neu-card p-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-extrabold">Fee Collection &amp; Financial Ledger (₹)</h2>
+              <p class="text-xs text-secondary-custom mt-0.5">Track monthly Paid / Partial / Pending statuses across Cash, UPI, Bank, and Other methods.</p>
+            </div>
+            <button type="button" onclick="openFeeModal()" class="neu-btn-primary px-4 py-2.5 text-xs sm:text-sm shrink-0">
+              + Record Fee Payment
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-4 gap-3.5 mt-5">
+            <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+              <div class="text-xs text-muted-custom font-semibold">Total Fees Collected</div>
+              <div class="text-xl font-extrabold text-emerald-600 dark:text-emerald-400 mt-1">${formatINR(fin.totalFeesCollected)}</div>
+            </div>
+            <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+              <div class="text-xs text-muted-custom font-semibold">Pending / Partial Balance</div>
+              <div class="text-xl font-extrabold text-amber-600 dark:text-amber-400 mt-1">${formatINR(fin.totalPendingFees)}</div>
+            </div>
+            <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+              <div class="text-xs text-muted-custom font-semibold">Total Staff Salary</div>
+              <div class="text-xl font-extrabold text-rose-600 dark:text-rose-400 mt-1">${formatINR(fin.totalStaffSalary)}</div>
+            </div>
+            <div class="p-3.5 rounded-xl border border-subtle-custom" style="background-color: var(--bg-input);">
+              <div class="text-xs text-muted-custom font-semibold">Net Balance (Fees − Salary)</div>
+              <div class="text-xl font-extrabold text-blue-700 dark:text-blue-400 mt-1">${formatINR(fin.netBalance)}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="neu-card p-5 overflow-x-auto">
+          <table class="w-full text-left border-collapse min-w-[640px]">
+            <thead>
+              <tr class="border-b border-subtle-custom text-[11px] uppercase tracking-wider text-muted-custom">
+                <th class="py-2.5 px-3">Student</th>
+                <th class="py-2.5 px-3">Month</th>
+                <th class="py-2.5 px-3 text-right">Fee Due</th>
+                <th class="py-2.5 px-3 text-right">Received</th>
+                <th class="py-2.5 px-3 text-center">Status</th>
+                <th class="py-2.5 px-3">Method</th>
+                <th class="py-2.5 px-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody>${rowsHtml || '<tr><td colspan="7" class="py-6 text-center text-xs text-muted-custom">No fee records yet. Tap “Record Fee Payment” to add one.</td></tr>'}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function openFeeModal() {
+      if (currentSession.role !== "owner") {
+        showToast("Only the Owner can record or view fee transactions.", "error");
+        return;
+      }
+      const sel = document.getElementById("fee-student-id");
+      sel.innerHTML = DB.students.filter(s => s.status === "active").map(s =>
+        `<option value="${s.id}" data-fee="${s.monthly_fee}">${esc(s.roll_no)} — ${esc(s.student_name)} (${formatINR(s.monthly_fee)})</option>`
+      ).join("");
+      if (!sel.options.length) {
+        showToast("Add an active student first.", "warning");
+        return;
+      }
+      document.getElementById("fee-month").value = currentMonthStr();
+      document.getElementById("fee-notes").value = "";
+      syncFeeStudentDefault();
+      openModal("modal-fee");
+    }
+
+    function syncFeeStudentDefault() {
+      const sel = document.getElementById("fee-student-id");
+      const month = document.getElementById("fee-month").value;
+      const stu = DB.students.find(s => s.id === sel.value);
+      const hint = document.getElementById("fee-existing-hint");
+      if (!stu) return;
+      const existing = DB.fees.find(f => f.student_id === stu.id && f.fee_month === month);
+      if (existing) {
+        const balance = Math.max(0, (Number(existing.amount_due) || 0) - (Number(existing.amount_paid) || 0));
+        document.getElementById("fee-due").value = existing.amount_due;
+        document.getElementById("fee-paid").value = balance;
+        hint.textContent = "Already received " + formatINR(existing.amount_paid) + " of " + formatINR(existing.amount_due) + " for this month. The amount you enter below is added to it.";
+        hint.classList.remove("hidden");
+      } else {
+        document.getElementById("fee-due").value = stu.monthly_fee;
+        document.getElementById("fee-paid").value = stu.monthly_fee;
+        hint.classList.add("hidden");
+      }
+    }
+
+    function handleSaveFee(e) {
+      e.preventDefault();
+      if (currentSession.role !== "owner") return;
+      const stuId = document.getElementById("fee-student-id").value;
+      const month = document.getElementById("fee-month").value;
+      const method = document.getElementById("fee-method").value;
+      const due = Number(document.getElementById("fee-due").value) || 0;
+      const paid = Number(document.getElementById("fee-paid").value) || 0;
+      const notes = document.getElementById("fee-notes").value.trim();
+
+      if (!stuId) { showToast("Select a student.", "error"); return; }
+      if (!month) { showToast("Select the fee month.", "error"); return; }
+      if (due <= 0) { showToast("Enter the fee amount due.", "error"); return; }
+      if (paid < 0) { showToast("Amount received cannot be negative.", "error"); return; }
+      const existingRec = DB.fees.find(f => f.student_id === stuId && f.fee_month === month);
+      const totalPaid = (existingRec ? (Number(existingRec.amount_paid) || 0) : 0) + paid;
+
+      let status = "Pending";
+      if (totalPaid >= due) status = "Paid";
+      else if (totalPaid > 0) status = "Partial";
+
+      const existingIdx = DB.fees.findIndex(f => f.student_id === stuId && f.fee_month === month);
+      if (existingIdx > -1) {
+        DB.fees[existingIdx] = {
+          ...DB.fees[existingIdx],
+          amount_due: due,
+          amount_paid: totalPaid,
+          status,
+          payment_method: method,
+          payment_date: todayStr(),
+          notes
+        };
+      } else {
+        DB.fees.unshift({
+          id: "fee_" + Date.now(),
+          student_id: stuId,
+          fee_month: month,
+          amount_due: due,
+          amount_paid: totalPaid,
+          status,
+          payment_method: method,
+          payment_date: todayStr(),
+          notes
+        });
+      }
+
+      const stu = DB.students.find(s => s.id === stuId);
+      logActivity("FEE_RECORDED", `Recorded ${formatINR(paid)} (${status}, total ${formatINR(totalPaid)}) via ${method} for ${stu ? stu.student_name : stuId}.`);
+      persistDB();
+      closeModal("modal-fee");
+      renderFeesModule();
+      showToast(`Fee saved: ${status} — ${formatINR(totalPaid)} of ${formatINR(due)} received`, "success");
+    }
+
+    function quickMarkFeePaid(feeId) {
+      if (currentSession.role !== "owner") return;
+      const f = DB.fees.find(item => item.id === feeId);
+      if (!f) return;
+      f.amount_paid = f.amount_due;
+      f.status = "Paid";
+      f.payment_date = todayStr();
+      persistDB();
+      logActivity("FEE_MARKED_PAID", `Marked fee record ${feeId} as Paid (${formatINR(f.amount_paid)}).`);
+      renderFeesModule();
+      showToast("Fee marked as Paid in full!", "success");
+    }
+
+    // =====================================================================
+    // RENDER MODULE 5: STAFF & SALARY MANAGEMENT
+    // =====================================================================
+    function renderStaffModule() {
+      const container = document.getElementById("staff-module-content");
+      if (currentSession.role !== "owner") {
+        container.innerHTML = `
+          <div class="neu-card p-8 text-center space-y-3 border-l-4 border-l-rose-600">
+            <div class="text-3xl">🔒</div>
+            <h2 class="text-xl font-extrabold">Owner-Restricted Staff &amp; Salary Administration</h2>
+            <p class="text-xs sm:text-sm text-secondary-custom max-w-md mx-auto">
+              only the Maktab Owner can invite/create staff accounts, deactivate staff access, or view staff salary records. Only an authenticated Maktab Owner account can access Staff &amp; Salary Management.
+            </p>
+          </div>
+        `;
+        return;
+      }
+
+      const staffList = DB.profiles.filter(p => p.role === "staff");
+      const staffCards = staffList.map(st => `
+        <div class="neu-card p-4 flex flex-col justify-between gap-3">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <h4 class="font-extrabold text-sm sm:text-base">${esc(st.full_name)}</h4>
+              <p class="text-xs text-secondary-custom">@${esc(st.username)} • ${esc(st.designation || "Ustad")}</p>
+              <p class="text-xs text-muted-custom mt-1">Mobile: ${esc(fmtPhone(st.mobile))} • Email: ${esc(st.email)}</p>
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase ${st.status === "active" ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300" : "bg-rose-500/20 text-rose-600 dark:text-rose-400"}">
+              ${esc(st.status)}
+            </span>
+          </div>
+          <div class="pt-2 border-t border-subtle-custom flex flex-wrap items-center justify-between gap-2 text-xs">
+            <span>Monthly Salary: <strong>${formatINR(st.monthly_salary)}</strong></span>
+            <button type="button" onclick="openStaffReset('${st.id}')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold">🔑 Reset Password</button>
+            <button type="button" onclick="toggleStaffActiveStatus('${st.id}')" class="neu-btn-secondary px-3 py-1.5 text-xs font-bold ${st.status === "active" ? "text-rose-600" : "text-emerald-600"}">
+              ${st.status === "active" ? "Deactivate Access" : "Re-Activate Access"}
+            </button>
+          </div>
+        </div>
+      `).join("");
+
+      const salaryRows = DB.salary_payments.map(sp => {
+        const st = DB.profiles.find(p => p.id === sp.staff_id) || { full_name: "Staff" };
+        return `
+          <tr class="border-b border-subtle-custom text-xs">
+            <td class="py-2.5 px-3 font-bold">${esc(st.full_name)}</td>
+            <td class="py-2.5 px-3 font-mono">${esc(sp.salary_month)}</td>
+            <td class="py-2.5 px-3 font-bold text-rose-600 dark:text-rose-400">${formatINR(sp.amount)}</td>
+            <td class="py-2.5 px-3">${esc(sp.payment_method)}</td>
+            <td class="py-2.5 px-3">${esc(sp.payment_date)}</td>
+            <td class="py-2.5 px-3 text-muted-custom">${esc(sp.notes || "-")}</td>
+          </tr>
+        `;
+      }).join("");
+
+      container.innerHTML = `
+        <div class="neu-card p-5">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div>
+              <h2 class="text-xl font-extrabold">Staff Accounts &amp; Salary Management</h2>
+              <p class="text-xs text-secondary-custom mt-0.5">Owner-controlled staff onboarding, account activation/deactivation, and salary disbursements.</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+              <button type="button" onclick="openModal('modal-staff')" class="neu-btn-primary px-4 py-2 text-xs">+ Create Staff Account</button>
+              <button type="button" onclick="openSalaryModal()" class="neu-btn-secondary px-4 py-2 text-xs">💸 Record Salary Payment</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">${staffCards || '<div class="neu-card p-6 text-center text-xs text-muted-custom md:col-span-3">No staff accounts yet. Tap “Create Staff Account” to add one.</div>'}</div>
+
+        <div class="neu-card p-5 overflow-x-auto">
+          <h3 class="text-base font-extrabold mb-3">Staff Salary Disbursement Ledger (<code>salary_payments</code>)</h3>
+          <table class="w-full text-left border-collapse min-w-[540px]">
+            <thead>
+              <tr class="border-b border-subtle-custom text-[11px] uppercase tracking-wider text-muted-custom">
+                <th class="py-2 px-3">Staff Member</th>
+                <th class="py-2 px-3">Salary Month</th>
+                <th class="py-2 px-3">Amount Paid</th>
+                <th class="py-2 px-3">Method</th>
+                <th class="py-2 px-3">Date</th>
+                <th class="py-2 px-3">Notes</th>
+              </tr>
+            </thead>
+            <tbody>${salaryRows || '<tr><td colspan="6" class="py-6 text-center text-xs text-muted-custom">No salary payments recorded yet.</td></tr>'}</tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    function toggleStaffActiveStatus(staffId) {
+      if (currentSession.role !== "owner") return;
+      const st = DB.profiles.find(p => p.id === staffId);
+      if (!st || st.role !== "staff") return;
+      if (st.status !== "active" && !st.password_hash) {
+        showToast("Set a password first (Reset Password), then re-activate this account.", "warning");
+        return;
+      }
+      st.status = st.status === "active" ? "inactive" : "active";
+      persistDB();
+      logActivity("STAFF_STATUS_CHANGED", `Owner set @${esc(st.username)} status to ${esc(st.status)}.`);
+      renderStaffModule();
+      showToast(`Staff account @${esc(st.username)} is now ${st.status.toUpperCase()}`, "info");
+    }
+
+    async function handleSaveStaff(e) {
+      e.preventDefault();
+      if (currentSession.role !== "owner" || authBusy) return;
+      const fullName = document.getElementById("staff-fullname").value.trim();
+      const username = document.getElementById("staff-username").value.trim();
+      const mobile = document.getElementById("staff-mobile").value.trim();
+      const email = document.getElementById("staff-email").value.trim();
+      const salary = Number(document.getElementById("staff-salary").value);
+      const designation = document.getElementById("staff-designation").value.trim();
+      const pass = document.getElementById("staff-pass").value;
+
+      if (fullName.length < 2) return showToast("Enter the staff member's full name.", "error");
+      if (!/^[a-zA-Z0-9_]{3,30}$/.test(username)) return showToast("Username must be 3–30 letters, numbers, or underscores.", "error");
+      if (!validPhone(mobile)) return showToast("Enter a valid mobile number (10–15 digits).", "error");
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showToast("Enter a valid email address.", "error");
+      if (!Number.isFinite(salary) || salary < 0) return showToast("Enter the monthly salary (0 or more).", "error");
+      if (pass.length < 6) return showToast("Password must be at least 6 characters.", "error");
+      if (DB.profiles.some(p => p.username.toLowerCase() === username.toLowerCase())) return showToast("Username already exists.", "error");
+
+      setBusy("form-staff", true);
+      try {
+        DB.profiles.push({
+          id: newId("usr"),
+          full_name: fullName,
+          username,
+          email,
+          mobile,
+          role: "staff",
+          designation,
+          monthly_salary: salary,
+          status: "active",
+          password_hash: await hashSecret(pass),
+          recovery_hash: null
+        });
+        persistDB();
+        logActivity("STAFF_CREATED", `Created staff account @${username} (${fullName}).`);
+        closeModal("modal-staff");
+        document.getElementById("form-staff").reset();
+        renderStaffModule();
+        showToast(`Created staff account @${username}. Share the password with them privately.`, "success");
+      } catch (err) {
+        showToast(err.message || "Could not create the account.", "error");
+      } finally {
+        setBusy("form-staff", false);
+      }
+    }
+
+    function openStaffReset(staffId) {
+      if (currentSession.role !== "owner") return;
+      const st = DB.profiles.find(p => p.id === staffId && p.role === "staff");
+      if (!st) return;
+      document.getElementById("reset-staff-id").value = st.id;
+      document.getElementById("reset-staff-pass").value = "";
+      document.getElementById("reset-staff-desc").textContent = "Set a new password for " + st.full_name + " (@" + st.username + ").";
+      openModal("modal-staff-reset");
+    }
+
+    async function handleStaffReset(e) {
+      e.preventDefault();
+      if (currentSession.role !== "owner" || authBusy) return;
+      const st = DB.profiles.find(p => p.id === document.getElementById("reset-staff-id").value && p.role === "staff");
+      const pass = document.getElementById("reset-staff-pass").value;
+      if (!st) return;
+      if (pass.length < 6) return showToast("Password must be at least 6 characters.", "error");
+      setBusy("form-staff-reset", true);
+      try {
+        st.password_hash = await hashSecret(pass);
+        persistDB();
+        logActivity("STAFF_PASSWORD_RESET", `Reset password for @${esc(st.username)}.`);
+        closeModal("modal-staff-reset");
+        document.getElementById("form-staff-reset").reset();
+        renderStaffModule();
+        showToast(st.status === "active" ? "Password updated." : "Password updated. Re-activate the account so they can sign in.", "success");
+      } catch (err) {
+        showToast(err.message || "Could not reset the password.", "error");
+      } finally {
+        setBusy("form-staff-reset", false);
+      }
+    }
+
+    function openSalaryModal() {
+      if (currentSession.role !== "owner") return;
+      const sel = document.getElementById("sal-staff-id");
+      const staffMembers = DB.profiles.filter(p => p.role === "staff");
+      if (staffMembers.length === 0) {
+        showToast("Create a staff account first.", "warning");
+        return;
+      }
+      document.getElementById("sal-month").value = currentMonthStr();
+      document.getElementById("sal-notes").value = "";
+      sel.innerHTML = staffMembers.map(st => `<option value="${st.id}">${esc(st.full_name)} (${formatINR(st.monthly_salary)}/mo)</option>`).join("");
+      syncSalaryStaffDefault();
+      openModal("modal-salary");
+    }
+
+    function syncSalaryStaffDefault() {
+      const sel = document.getElementById("sal-staff-id");
+      const st = DB.profiles.find(p => p.id === sel.value);
+      if (st) {
+        document.getElementById("sal-amount").value = st.monthly_salary;
+      }
+    }
+
+    function handleSaveSalary(e) {
+      e.preventDefault();
+      if (currentSession.role !== "owner") return;
+      const staffId = document.getElementById("sal-staff-id").value;
+      const month = document.getElementById("sal-month").value;
+      const amount = Number(document.getElementById("sal-amount").value) || 0;
+      const method = document.getElementById("sal-method").value;
+      const notes = document.getElementById("sal-notes").value.trim();
+      if (!staffId) { showToast("Select a staff member.", "error"); return; }
+      if (!month) { showToast("Select the salary month.", "error"); return; }
+      if (amount <= 0) { showToast("Enter the salary amount paid.", "error"); return; }
+
+      DB.salary_payments.unshift({
+        id: "sal_" + Date.now(),
+        staff_id: staffId,
+        salary_month: month,
+        amount,
+        payment_method: method,
+        payment_date: todayStr(),
+        notes
+      });
+
+      const st = DB.profiles.find(p => p.id === staffId);
+      persistDB();
+      logActivity("SALARY_PAID", `Paid ${formatINR(amount)} salary to ${st ? st.full_name : staffId} via ${method}.`);
+      closeModal("modal-salary");
+      renderStaffModule();
+      showToast("Salary payment recorded!", "success");
+    }
+
+    // =====================================================================
+    // RENDER MODULE 6: REPORTS, BACKUP, LOGS & KHALEEL AI
+    // =====================================================================
+    function renderReportsModule() {
+      const isOwner = currentSession.role === "owner";
+      const cardsEl = document.getElementById("reports-export-cards");
+
+      cardsEl.innerHTML = `
+        <div class="p-4 rounded-xl border border-subtle-custom flex flex-col justify-between gap-3" style="background-color: var(--bg-input);">
+          <div>
+            <div class="font-bold text-sm">🎓 Student Directory CSV</div>
+            <p class="text-xs text-secondary-custom mt-1">Export all ${DB.students.length} student records (active &amp; lifecycle status).</p>
+          </div>
+          <button type="button" onclick="exportCSVReport('students')" class="neu-btn-secondary py-2 px-3 text-xs font-bold">Download CSV</button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-subtle-custom flex flex-col justify-between gap-3" style="background-color: var(--bg-input);">
+          <div>
+            <div class="font-bold text-sm">⚡ Attendance Report CSV</div>
+            <p class="text-xs text-secondary-custom mt-1">Daily attendance records &amp; percentages (excluding Sundays).</p>
+          </div>
+          <button type="button" onclick="exportCSVReport('attendance')" class="neu-btn-secondary py-2 px-3 text-xs font-bold">Download CSV</button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-subtle-custom flex flex-col justify-between gap-3" style="background-color: var(--bg-input);">
+          <div>
+            <div class="font-bold text-sm">₹ Fee Transactions CSV</div>
+            <p class="text-xs text-secondary-custom mt-1">${isOwner ? "Complete Paid / Partial / Pending student fee ledger." : "🔒 Restricted to Owner role."}</p>
+          </div>
+          <button type="button" onclick="exportCSVReport('fees')" class="neu-btn-secondary py-2 px-3 text-xs font-bold ${isOwner ? "" : "opacity-50"}">
+            ${isOwner ? "Download CSV" : "🔒 Owner Only"}
+          </button>
+        </div>
+
+        <div class="p-4 rounded-xl border border-subtle-custom flex flex-col justify-between gap-3" style="background-color: var(--bg-input);">
+          <div>
+            <div class="font-bold text-sm">👥 Staff Salary Report CSV</div>
+            <p class="text-xs text-secondary-custom mt-1">${isOwner ? "Staff salary payments and net balance report." : "🔒 Restricted to Owner role."}</p>
+          </div>
+          <button type="button" onclick="exportCSVReport('salaries')" class="neu-btn-secondary py-2 px-3 text-xs font-bold ${isOwner ? "" : "opacity-50"}">
+            ${isOwner ? "Download CSV" : "🔒 Owner Only"}
+          </button>
+        </div>
+      `;
+
+      // Activity Logs
+      document.getElementById("activity-log-count").textContent = DB.activity_logs.length + " events";
+      document.getElementById("activity-logs-list").innerHTML = DB.activity_logs.slice(0, 100).map(log => `
+        <div class="p-3 rounded-xl border border-subtle-custom flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-xs" style="background-color: var(--bg-input);">
+          <div>
+            <span class="font-mono font-bold text-[10px] px-2 py-0.5 rounded bg-blue-600/15 text-blue-700 dark:text-blue-300 mr-1.5">${esc(log.action_type)}</span>
+            <span class="font-semibold">${esc(log.details)}</span>
+          </div>
+          <div class="text-[11px] text-muted-custom shrink-0">
+            ${esc(log.actor_name)} (${esc(log.actor_role)}) • ${esc(log.created_at)}
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Khaleel AI Concept
+    function handleKhaleelAISubmit(e) {
+      e.preventDefault();
+      const input = document.getElementById("khaleel-ai-input");
+      askKhaleelAI(input.value);
+    }
+
+    function askKhaleelAI(query) {
+      document.getElementById("khaleel-ai-input").value = query;
+      const q = String(query || "").toLowerCase();
+      const outEl = document.getElementById("khaleel-ai-response");
+      const isOwner = currentSession.role === "owner";
+
+      const activeStudents = DB.students.filter(s => s.status === "active");
+      const dayMap = DB.attendance[selectedAttendanceDate] || {};
+      const absentToday = activeStudents.filter(s => (dayMap[s.id] || {}).status === "Absent");
+      const presentToday = activeStudents.filter(s => (dayMap[s.id] || {}).status === "Present");
+      const overallAtt = calculateOverallAttendanceStats();
+
+      // 1. Check if query asks about Owner-only Financial / Fee / Salary info
+      if (q.includes("fee") || q.includes("salary") || q.includes("balance") || q.includes("money") || q.includes("paid") || q.includes("pending") || q.includes("financial")) {
+        if (!isOwner) {
+          outEl.innerHTML = `<strong class="text-rose-600 dark:text-rose-400">🔒 Role Restriction Enforced:</strong> You are currently signed in with a <strong>Staff</strong> role. Owner-only financial questions (fees, staff salaries, and net balance) are protected by role isolation.`;
+          return;
+        }
+        const fin = getOwnerFinancialSummary();
+        const pendingStuNames = DB.fees
+          .filter(f => f.status === "Pending" || f.status === "Partial")
+          .map(f => {
+            const st = DB.students.find(s => s.id === f.student_id);
+            return st ? `${esc(st.student_name)} (${esc(f.status)}: ${formatINR(f.amount_due - f.amount_paid)} due)` : null;
+          })
+          .filter(Boolean);
+
+        outEl.innerHTML = `
+          <div><strong>📊 Grounded Financial Database Answer (Owner Verified):</strong></div>
+          <ul class="list-disc pl-5 mt-1.5 space-y-1">
+            <li><strong>Total Fees Collected:</strong> ${formatINR(fin.totalFeesCollected)} (${fin.paidCount} Paid, ${fin.partialCount} Partial, ${fin.pendingCount} Pending)</li>
+            <li><strong>Total Staff Salary Paid:</strong> ${formatINR(fin.totalStaffSalary)}</li>
+            <li><strong>Net Balance (Total Fees − Staff Salary):</strong> ${formatINR(fin.netBalance)}</li>
+            <li><strong>Students with Pending/Partial Fees (${pendingStuNames.length}):</strong> ${pendingStuNames.slice(0, 8).join(", ")}${pendingStuNames.length > 8 ? "..." : ""}</li>
+          </ul>
+        `;
+        return;
+      }
+
+      // 2. Student count / enrolment questions
+      if (q.includes("student") || q.includes("how many") || q.includes("count") || q.includes("enrol") || q.includes("class")) {
+        const paused = DB.students.filter(s => s.status === "paused").length;
+        const inactive = DB.students.filter(s => s.status === "inactive").length;
+        const archived = DB.students.filter(s => s.status === "archived").length;
+        outEl.innerHTML = `
+          <div><strong>🎓 Grounded Student Database Answer:</strong></div>
+          <ul class="list-disc pl-5 mt-1.5 space-y-1">
+            <li><strong>Active Students:</strong> ${activeStudents.length} (included in daily attendance &amp; statistics)</li>
+            <li><strong>Non-Active Students (${paused + inactive + archived} excluded from stats):</strong> ${paused} Paused, ${inactive} Inactive, ${archived} Archived</li>
+            <li><strong>Total Records in <code class="font-mono">students</code> Table:</strong> ${DB.students.length}</li>
+          </ul>
+        `;
+        return;
+      }
+
+      // 3. Attendance / Absent questions
+      if (q.includes("absent") || q.includes("present") || q.includes("attendance") || q.includes("today")) {
+        const absentNames = absentToday.map(s => esc(s.student_name)).join(", ") || "None";
+        outEl.innerHTML = `
+          <div><strong>⚡ Grounded Attendance Database Answer (${selectedAttendanceDate}):</strong></div>
+          <ul class="list-disc pl-5 mt-1.5 space-y-1">
+            <li><strong>Present on ${selectedAttendanceDate}:</strong> ${presentToday.length} of ${activeStudents.length} active students</li>
+            <li><strong>Absent on ${selectedAttendanceDate} (${absentToday.length}):</strong> ${absentNames}</li>
+            <li><strong>Overall Working-Day Attendance Percentage (Excluding Sundays):</strong> ${overallAtt.pct === null ? "no attendance recorded yet" : overallAtt.pct + "%"}</li>
+          </ul>
+        `;
+        return;
+      }
+
+      // 4. Fallback per Section 19: "If the database does not contain an answer, the AI should clearly say that the information is unavailable."
+      outEl.innerHTML = `
+        <strong class="text-amber-600 dark:text-amber-400">ℹ️ Information Unavailable in Database:</strong>
+        Khaleel AI answers strictly from real Maktab-E-Khaleel database tables (<code class="font-mono">students</code>, <code class="font-mono">attendance</code>, <code class="font-mono">fees</code>, <code class="font-mono">salary_payments</code>). The requested information is not present in the database records, so no answer was invented.
+      `;
+    }
+
+    // =====================================================================
+    // EXPORTS (CSV), BACKUP & RESTORE
+    // =====================================================================
+    function csvCell(v) {
+      let s = String(v == null ? "" : v);
+      // Guard against spreadsheet formula injection (but keep plain phone numbers / negatives intact)
+      if (/^[=@]/.test(s) || (/^[+\-]/.test(s) && !/^[+\-]?[\d\s().-]+$/.test(s))) s = "'" + s;
+      return '"' + s.replace(/"/g, '""') + '"';
+    }
+    function csvLine(arr) { return arr.map(csvCell).join(","); }
+
+    function downloadFile(filename, content, mime) {
+      const blob = new Blob([content], { type: mime });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    }
+
+    function exportCSVReport(type) {
+      if ((type === "fees" || type === "salaries") && currentSession.role !== "owner") {
+        showToast("Access denied: financial exports are restricted to the Owner.", "error");
+        return;
+      }
+      const rows = [];
+      let filename = "maktab_report.csv";
+
+      if (type === "students") {
+        filename = "Maktab_Students_" + todayStr() + ".csv";
+        rows.push(csvLine(["Roll No", "Student Name", "Guardian Name", "Parent WhatsApp", "Class", "Status", "Joining Date"]));
+        DB.students.forEach(s => rows.push(csvLine([s.roll_no, s.student_name, s.guardian_name, s.parent_mobile, s.class_level, s.status, s.joining_date])));
+      } else if (type === "attendance") {
+        filename = "Maktab_Attendance_" + selectedAttendanceDate + ".csv";
+        rows.push(csvLine(["Date", "Roll No", "Student Name", "Class", "Attendance", "WhatsApp Alert"]));
+        const dayMap = DB.attendance[selectedAttendanceDate] || {};
+        DB.students.filter(s => s.status === "active").forEach(s => {
+          const rec = dayMap[s.id] || { status: "Not Marked", whatsapp_status: "Not Sent" };
+          rows.push(csvLine([selectedAttendanceDate, s.roll_no, s.student_name, s.class_level, rec.status, rec.whatsapp_status]));
+        });
+      } else if (type === "fees") {
+        filename = "Maktab_Fees_" + todayStr() + ".csv";
+        rows.push(csvLine(["Student", "Roll No", "Fee Month", "Amount Due (INR)", "Amount Paid (INR)", "Status", "Method", "Date", "Notes"]));
+        DB.fees.forEach(f => {
+          const stu = DB.students.find(s => s.id === f.student_id) || { student_name: "(removed)", roll_no: "" };
+          rows.push(csvLine([stu.student_name, stu.roll_no, f.fee_month, f.amount_due, f.amount_paid, f.status, f.payment_method, f.payment_date, f.notes]));
+        });
+      } else if (type === "salaries") {
+        filename = "Maktab_Salaries_" + todayStr() + ".csv";
+        rows.push(csvLine(["Staff", "Salary Month", "Amount (INR)", "Method", "Date", "Notes"]));
+        DB.salary_payments.forEach(sp => {
+          const st = DB.profiles.find(p => p.id === sp.staff_id) || { full_name: "(removed)" };
+          rows.push(csvLine([st.full_name, sp.salary_month, sp.amount, sp.payment_method, sp.payment_date, sp.notes]));
+        });
+      }
+      downloadFile(filename, "\uFEFF" + rows.join("\r\n"), "text/csv;charset=utf-8;");
+      logActivity("REPORT_EXPORTED", "Exported " + filename + ".");
+      showToast("Downloaded " + filename, "success");
+    }
+
+    // Backup holds records only: never passwords, password hashes or recovery codes
+    function triggerSafeBackupJSON() {
+      if (!currentSession) return;
+      const isOwner = currentSession.role === "owner";
+      const payload = {
+        backup_version: 2,
+        application: "Maktab-E-Khaleel",
+        backup_timestamp: new Date().toISOString(),
+        contains_financials: isOwner,
+        settings: Object.assign({}, DB.settings),
+        profiles: DB.profiles.map(p => ({ id: p.id, full_name: p.full_name, username: p.username, email: p.email, mobile: p.mobile, role: p.role, designation: p.designation, monthly_salary: isOwner ? p.monthly_salary : 0, status: p.status })),
+        students: DB.students,
+        attendance: DB.attendance,
+        fees: isOwner ? DB.fees : [],
+        salary_payments: isOwner ? DB.salary_payments : [],
+        activity_logs: DB.activity_logs
+      };
+      delete payload.settings.last_backup_at;
+      downloadFile("Maktab_Backup_" + todayStr() + ".json", JSON.stringify(payload, null, 2), "application/json");
+      if (isOwner) { DB.settings.last_backup_at = nowStamp(); persistDB(); }
+      logActivity("BACKUP_CREATED", "Downloaded a data backup" + (isOwner ? "" : " (without financial records)") + ".");
+      showToast("Backup downloaded. Keep the file somewhere safe (Drive, email, another device).", "success");
+      if (currentModule === "settings") renderSettingsModule();
+    }
+
+    function requestRestore() {
+      if (!currentSession || currentSession.role !== "owner") {
+        showToast("Only the Owner can restore a backup.", "error");
+        return;
+      }
+      document.getElementById("restore-file").click();
+    }
+
+    function handleRestoreFile(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try {
+          applyRestore(JSON.parse(String(reader.result)));
+        } catch (err) {
+          showToast(err && err.message === "cancelled" ? "Restore cancelled." : "That file is not a valid Maktab backup.", err && err.message === "cancelled" ? "info" : "error");
+        }
+        input.value = "";
+      };
+      reader.onerror = () => { showToast("Could not read that file.", "error"); input.value = ""; };
+      reader.readAsText(file);
+    }
+
+    const RX_DATE = /^\d{4}-\d{2}-\d{2}$/;
+    const RX_MONTH = /^\d{4}-\d{2}$/;
+    function cleanId(v) { return /^[A-Za-z0-9_\-]{1,80}$/.test(String(v)) ? String(v) : null; }
+    function str(v, max) { return String(v == null ? "" : v).slice(0, max || 200); }
+    function num(v) { const n = Number(v); return Number.isFinite(n) && n >= 0 ? n : 0; }
+
+    function applyRestore(data) {
+      if (!data || data.application !== "Maktab-E-Khaleel" || !Array.isArray(data.students) || !data.attendance || typeof data.attendance !== "object") {
+        throw new Error("invalid");
+      }
+      const hasFin = data.contains_financials === true;
+      const when = data.backup_timestamp ? String(data.backup_timestamp).slice(0, 10) : "unknown date";
+      const ok = window.confirm("Restore the backup from " + when + "?\n\nThis REPLACES the students, attendance" + (hasFin ? ", fees, salaries" : "") + " and settings currently on this device. Accounts and passwords are kept." + (hasFin ? "" : "\n\nThis backup has no financial records, so current fees and salaries will be kept."));
+      if (!ok) throw new Error("cancelled");
+
+      // Keep a rollback copy in case this was a mistake
+      SafeStorage.set("mk_pre_restore_copy", DB);
+
+      const STATUS = ["active", "paused", "inactive", "archived"];
+      const students = [];
+      const usedIds = new Set();
+      data.students.forEach(s => {
+        if (!s || typeof s !== "object") return;
+        let id = cleanId(s.id) || newId("stu");
+        if (usedIds.has(id)) id = newId("stu");
+        usedIds.add(id);
+        students.push({
+          id,
+          roll_no: str(s.roll_no, 20),
+          student_name: str(s.student_name, 120),
+          guardian_name: str(s.guardian_name, 120),
+          parent_mobile: str(s.parent_mobile, 20),
+          class_level: str(s.class_level, 60),
+          monthly_fee: num(s.monthly_fee),
+          joining_date: RX_DATE.test(s.joining_date) ? s.joining_date : todayStr(),
+          status: STATUS.includes(s.status) ? s.status : "active",
+          notes: str(s.notes, 300)
+        });
+      });
+
+      const ATT = ["Present", "Absent", "Not Marked"];
+      const WA = ["Sent", "Not Sent", "Send Later"];
+      const attendance = {};
+      Object.keys(data.attendance).forEach(d => {
+        if (!RX_DATE.test(d) || !data.attendance[d] || typeof data.attendance[d] !== "object") return;
+        attendance[d] = {};
+        Object.keys(data.attendance[d]).forEach(sid => {
+          const r = data.attendance[d][sid];
+          if (!cleanId(sid) || !r) return;
+          attendance[d][sid] = { status: ATT.includes(r.status) ? r.status : "Not Marked", whatsapp_status: WA.includes(r.whatsapp_status) ? r.whatsapp_status : "Not Sent" };
+        });
+      });
+
+      // Staff accounts from a backup return as inactive with no password (Owner must reset and re-activate)
+      const restoredStaffIds = new Set();
+      (Array.isArray(data.profiles) ? data.profiles : []).forEach(p => {
+        if (!p || p.role !== "staff") return;
+        const id = cleanId(p.id);
+        if (!id || DB.profiles.some(x => x.id === id)) { if (id) restoredStaffIds.add(id); return; }
+        if (!/^[a-zA-Z0-9_]{3,30}$/.test(String(p.username)) || DB.profiles.some(x => x.username.toLowerCase() === String(p.username).toLowerCase())) return;
+        DB.profiles.push({ id, full_name: str(p.full_name, 120), username: String(p.username), email: str(p.email, 120), mobile: str(p.mobile, 20), role: "staff", designation: str(p.designation, 80), monthly_salary: num(p.monthly_salary), status: "inactive", password_hash: null, recovery_hash: null });
+        restoredStaffIds.add(id);
+      });
+
+      DB.students = students;
+      DB.attendance = attendance;
+
+      if (hasFin) {
+        const FS = ["Paid", "Partial", "Pending"];
+        DB.fees = (Array.isArray(data.fees) ? data.fees : []).filter(f => f && cleanId(f.id) && cleanId(f.student_id) && RX_MONTH.test(f.fee_month)).map(f => ({
+          id: String(f.id), student_id: String(f.student_id), fee_month: f.fee_month, amount_due: num(f.amount_due), amount_paid: num(f.amount_paid),
+          status: FS.includes(f.status) ? f.status : "Pending", payment_method: str(f.payment_method, 20), payment_date: RX_DATE.test(f.payment_date) ? f.payment_date : "", notes: str(f.notes, 300)
+        }));
+        DB.salary_payments = (Array.isArray(data.salary_payments) ? data.salary_payments : []).filter(p => p && cleanId(p.id) && cleanId(p.staff_id) && RX_MONTH.test(p.salary_month)).map(p => ({
+          id: String(p.id), staff_id: String(p.staff_id), salary_month: p.salary_month, amount: num(p.amount), payment_method: str(p.payment_method, 20), payment_date: RX_DATE.test(p.payment_date) ? p.payment_date : "", notes: str(p.notes, 300)
+        }));
+      }
+
+      const s = data.settings || {};
+      if (typeof s.maktab_name === "string" && s.maktab_name.trim()) DB.settings.maktab_name = str(s.maktab_name, 100);
+      if (typeof s.tagline === "string") DB.settings.tagline = str(s.tagline, 150);
+      if (typeof s.address === "string") DB.settings.address = str(s.address, 200);
+      if (typeof s.contact_mobile === "string") DB.settings.contact_mobile = str(s.contact_mobile, 30);
+      if (typeof s.sunday_holiday === "boolean") DB.settings.sunday_holiday = s.sunday_holiday;
+      if (s.default_monthly_fee != null) DB.settings.default_monthly_fee = num(s.default_monthly_fee);
+      if (typeof s.whatsapp_template === "string" && s.whatsapp_template.trim()) DB.settings.whatsapp_template = str(s.whatsapp_template, 600);
+
+      persistDB();
+      logActivity("BACKUP_RESTORED", "Restored backup from " + when + " (" + students.length + " students).");
+      attendanceDirty = false;
+      renderAppShellHeader();
+      renderCurrentModule();
+      showToast("Backup restored: " + students.length + " students loaded.", "success");
+    }
+
+    // =====================================================================
+    // SETTINGS
+    // =====================================================================
+    function renderSettingsModule() {
+      document.getElementById("set-maktab-name").value = DB.settings.maktab_name || "";
+      document.getElementById("set-maktab-phone").value = DB.settings.contact_mobile || "";
+      document.getElementById("set-maktab-address").value = DB.settings.address || "";
+      document.getElementById("set-default-fee").value = DB.settings.default_monthly_fee || 0;
+      document.getElementById("set-wa-template").value = DB.settings.whatsapp_template || DEFAULT_WA_TEMPLATE;
+      document.getElementById("set-sunday-holiday").checked = Boolean(DB.settings.sunday_holiday);
+      const lb = document.getElementById("last-backup-label");
+      if (lb) lb.textContent = DB.settings.last_backup_at ? "Last backup: " + DB.settings.last_backup_at : "No backup has been downloaded yet.";
+    }
+
+    function handleSaveSettings(e) {
+      e.preventDefault();
+      if (currentSession.role !== "owner") {
+        showToast("Only the Owner can change Maktab settings.", "error");
+        return;
+      }
+      const name = document.getElementById("set-maktab-name").value.trim();
+      const fee = Number(document.getElementById("set-default-fee").value);
+      if (!name) return showToast("Maktab name cannot be empty.", "error");
+      if (!Number.isFinite(fee) || fee < 0) return showToast("Default fee must be zero or more.", "error");
+      DB.settings.maktab_name = name;
+      DB.settings.contact_mobile = document.getElementById("set-maktab-phone").value.trim();
+      DB.settings.address = document.getElementById("set-maktab-address").value.trim();
+      DB.settings.default_monthly_fee = fee;
+      DB.settings.whatsapp_template = document.getElementById("set-wa-template").value.trim() || DEFAULT_WA_TEMPLATE;
+      DB.settings.sunday_holiday = document.getElementById("set-sunday-holiday").checked;
+      persistDB();
+      logActivity("SETTINGS_UPDATED", "Updated Maktab settings.");
+      renderAppShellHeader();
+      showToast("Settings saved.", "success");
+    }
+
+    // =====================================================================
+    // MODALS
+    // =====================================================================
+    function openModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.remove("hidden");
+    }
+    function closeModal(id) {
+      const el = document.getElementById(id);
+      if (el) el.classList.add("hidden");
+    }
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") document.querySelectorAll("[id^=modal-]:not(.hidden)").forEach(m => m.classList.add("hidden"));
+    });
+
+    // =====================================================================
+    // START-UP & SAFETY NETS
+    // =====================================================================
+    let lastErrorToast = 0;
+    function reportUnexpected(msg) {
+      console.error(msg);
+      if (Date.now() - lastErrorToast > 4000) {
+        lastErrorToast = Date.now();
+        showToast("Something went wrong. If it keeps happening, reload the app.", "error");
+      }
+    }
+    window.addEventListener("error", (e) => reportUnexpected(e.message));
+    window.addEventListener("unhandledrejection", (e) => reportUnexpected(e.reason));
+
+    // Keep two open tabs/windows from overwriting each other
+    window.addEventListener("storage", (e) => {
+      if (e.key === DB_KEY && e.newValue) {
+        DB = loadDB();
+        if (currentSession && revalidateSession()) { renderAppShellHeader(); renderCurrentModule(); }
+        else if (!currentSession) applyAuthMode();
+      }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState !== "visible") return;
+      if (dateFollowsToday && selectedAttendanceDate !== todayStr()) {
+        selectedAttendanceDate = todayStr();
+        const di = document.getElementById("att-date-input");
+        if (di) di.value = selectedAttendanceDate;
+      }
+      if (currentSession && revalidateSession()) { renderAppShellHeader(); renderCurrentModule(); }
+    });
+
+    function initApp() {
+      initTheme();
+      if (dbLoadWarning) showToast(dbLoadWarning, "error");
+      if (!(window.crypto && window.crypto.subtle)) {
+        showToast("Secure sign-in needs the https:// link of this app. Open it from your deployed address.", "error");
+      }
+      if (!SafeStorage.set("mk_probe", 1)) {
+        showToast("This browser is blocking storage, so records cannot be saved. Turn off private mode.", "error");
+      }
+      SafeStorage.remove("mk_probe");
+      if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
+
+      const loginUserEl = document.getElementById("login-username");
+      loginUserEl.value = SafeStorage.get("mk_remembered_username", "") || "";
+      setLoginRole(SafeStorage.get("mk_login_role", "owner"));
+
+      currentSession = restoreSession();
+      if (currentSession) {
+        enterApplicationShell();
+      } else {
+        showAuthScreen();
+        if (window.location.hash === "#recovery" && hasOwner()) switchAuthTab("recovery");
+      }
+    }
+    window.addEventListener("DOMContentLoaded", initApp);
+  </script>
+<script>if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));}</script>
+</body>
+</html>
